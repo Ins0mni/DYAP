@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y2K Media Literacy Mission & Survey</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase SDK Compat -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
+        .font-rounded { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .aqua-glass {
+            background: rgba(45, 27, 78, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(244, 114, 182, 0.35);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .aqua-glass-inner {
+            background: rgba(30, 15, 55, 0.6);
+            border: 1px solid rgba(236, 72, 153, 0.2);
+        }
+        .aqua-button {
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            transition: all 0.2s ease;
+        }
+        .aqua-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-[#0f071e] text-pink-100 font-rounded min-h-screen p-4 flex flex-col items-center justify-center">
+
+    <div class="max-w-lg w-full aqua-glass rounded-2xl p-6 relative overflow-hidden my-6">
+        <!-- Decorative Y2K Sparkles -->
+        <div class="absolute top-3 right-4 text-pink-300 text-xl animate-pulse">✨</div>
+        <div class="absolute bottom-3 left-4 text-purple-300 text-xl animate-bounce">💖</div>
+
+        <div class="text-center mb-6">
+            <h1 class="font-display font-bold text-2xl text-pink-300">🌸 TruthGuard Cyber Mission 🌸</h1>
+            <p class="text-xs text-pink-200/70 mt-1">Y2K Media Literacy Survey & Cloud Vault</p>
+            <div id="status-badge" class="mt-3 inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-yellow-500/20 text-yellow-300 border border-yellow-500/40">
+                Connecting to Firebase...
+            </div>
+        </div>
+
+        <!-- SCREEN 1: AGENT LOGIN / SETUP -->
+        <div id="screen-login" class="space-y-4">
+            <div class="aqua-glass-inner p-4 rounded-xl space-y-3">
+                <label class="block text-xs font-bold uppercase tracking-wider text-pink-300">Enter Agent Name</label>
+                <input type="text" id="agent-name" placeholder="e.g. CyberAgent01" class="w-full bg-[#170a2e] border border-pink-500/30 rounded-xl px-4 py-2.5 text-sm text-pink-100 focus:outline-none focus:border-pink-400">
+            </div>
+            <button onclick="startMission()" class="w-full aqua-button font-display font-bold py-3 px-4 rounded-xl text-white shadow-lg">
+                Start Mission & Survey 🚀
+            </button>
+            <button onclick="showLeaderboard()" class="w-full bg-purple-900/40 hover:bg-purple-900/60 border border-purple-500/30 text-pink-200 font-display font-bold py-2.5 px-4 rounded-xl text-xs transition">
+                View Global Leaderboard 🏆
+            </button>
+        </div>
+
+        <!-- SCREEN 2: SURVEY & UPLOAD MISSION -->
+        <div id="screen-survey" class="space-y-5 hidden">
+            <div class="flex justify-between items-center text-xs text-pink-300 border-b border-pink-500/20 pb-2">
+                <span id="question-progress" class="font-bold">Question 1 of 8</span>
+                <span id="agent-display" class="italic text-pink-200/80">Agent: </span>
+            </div>
+
+            <div id="question-container" class="aqua-glass-inner p-4 rounded-xl space-y-3">
+                <!-- Dynamically injected question content -->
+            </div>
+
+            <!-- Media/Image Upload Feature connected to Firebase Storage -->
+            <div class="aqua-glass-inner p-4 rounded-xl space-y-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-pink-300">Upload Evidence / Poster Picture 📸</label>
+                <input type="file" id="media-upload" accept="image/*,audio/*" class="w-full text-xs text-pink-200 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-pink-500 file:text-white hover:file:bg-pink-600 cursor-pointer">
+                <div id="upload-status" class="text-[11px] text-pink-300"></div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="prevQuestion()" id="prev-btn" class="w-1/3 bg-purple-950/60 hover:bg-purple-900 border border-pink-500/30 font-bold py-2.5 rounded-xl text-xs text-pink-200 transition">Back</button>
+                <button onclick="nextQuestion()" id="next-btn" class="w-2/3 aqua-button font-display font-bold py-2.5 rounded-xl text-white text-xs shadow-lg">Next Question ➡️</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: LEADERBOARD / RESULTS -->
+        <div id="screen-leaderboard" class="space-y-4 hidden">
+            <h2 class="font-display font-bold text-lg text-pink-300 text-center">Global Agent Rankings 🏆</h2>
+            <div id="leaderboard-list" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                <!-- Dynamically loaded from Firestore -->
+                <div class="text-center text-xs text-pink-300 py-4">Loading cloud scores...</div>
+            </div>
+            <button onclick="resetToLogin()" class="w-full aqua-button font-display font-bold py-2.5 rounded-xl text-white text-xs shadow-lg">
+                Play Again / Home ✨
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Your exact Firebase project configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAawBkPzFwdGzm_2KESPQYKXNUs14TkcWo",
+            authDomain: "truthguard-f65c7.firebaseapp.com",
+            projectId: "truthguard-f65c7",
+            storageBucket: "truthguard-f65c7.firebasestorage.app",
+            messagingSenderId: "360190613653",
+            appId: "1:360190613653:web:fdb2742337cf4b70a0a39c",
+            measurementId: "G-SPH132XTBJ"
+        };
+
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            const storage = firebase.storage();
+            
+            document.getElementById('status-badge').className = "inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-green-500/20 text-green-300 border border-green-500/40";
+            document.getElementById('status-badge').innerText = "Firebase Cloud Online 🟢";
+        } catch (e) {
+            document.getElementById('status-badge').className = "inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-red-500/20 text-red-300 border border-red-500/40";
+            document.getElementById('status-badge').innerText = "Config Error ⚠️";
+            console.error(e);
+        }
+
+        // 8-Question Media Literacy Survey Data
+        const surveyQuestions = [
+            { q: "1. You see a shocking headline shared by an unfamiliar account. What should you do first?", options: ["Share it immediately to warn friends", "Cross-check with trusted news or fact-checking sites", "Assume it's true because it has many likes"], correct: 1 },
+            { q: "2. An online store offers branded K-pop merchandise at a 95% discount. Is this safe?", options: ["Yes, it's a lucky limited-time promo", "No, it's likely a scam or fake product listing", "Only if paid via direct bank wire"], correct: 1 },
+            { q: "3. What is 'deepfake' media?", options: ["An underwater photography technique", "AI-manipulated video or audio that replaces faces or voices to spread misinformation", "A secure messaging privacy filter"], correct: 1 },
+            { q: "4. A viral rumor spreads about a local school event without official backing. How do you verify it?", options: ["Check official announcements or ask school authorities", "Retweet it to ask if anyone else heard it", "Ignore it and pretend it never happened"], correct: 0 },
+            { q: "5. Why do clickbait titles exist?", options: ["To educate readers thoroughly", "To generate advertising revenue through curiosity and sensationalism", "To protect user security online"], correct: 1 },
+            { q: "6. Which of these is a strong indicator of a secure website URL?", options: ["http:// and suspicious numbers", "https:// with a verified domain padlock", "Any link sent by a random chat group"], correct: 1 },
+            { q: "7. If someone online asks for your password or personal ID number, you should:", options: ["Share it if they claim to be tech support", "Never share it under any circumstance", "Post it publicly for help"], correct: 1 },
+            { q: "8. How does media literacy help communities in Brunei and beyond?", options: ["It stops the spread of false rumors and protects online safety", "It makes internet browsing slower", "It prevents people from downloading pictures"], correct: 0 }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let currentAgent = "";
+        let uploadedFileUrl = "";
+
+        function startMission() {
+            const nameInput = document.getElementById('agent-name').value.trim();
+            if (!nameInput) {
+                alert("Please enter your Agent code name first!");
+                return;
+            }
+            currentAgent = nameInput;
+            document.getElementById('agent-display').innerText = `Agent: ${currentAgent}`;
+            currentIdx = 0;
+            score = 0;
+            uploadedFileUrl = "";
+
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('screen-survey').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const qObj = surveyQuestions[currentIdx];
+            document.getElementById('question-progress').innerText = `Question ${currentIdx + 1} of ${surveyQuestions.length}`;
+            
+            const container = document.getElementById('question-container');
+            let html = `<p class="font-semibold text-sm text-pink-100">${qObj.q}</p><div class="space-y-2 mt-2">`;
+            
+            qObj.options.forEach((opt, idx) => {
+                html += `<label class="flex items-center space-x-2 text-xs bg-[#241342]/70 p-2.5 rounded-lg border border-pink-500/20 cursor-pointer hover:border-pink-400">
+                    <input type="radio" name="quiz-option" value="${idx}" class="text-pink-500 focus:ring-pink-400">
+                    <span class="text-pink-200">${opt}</span>
+                </label>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+            document.getElementById('prev-btn').style.display = currentIdx === 0 ? 'none' : 'block';
+        }
+
+        async function nextQuestion() {
+            const selected = document.querySelector('input[name="quiz-option"]:checked');
+            if (!selected) {
+                alert("Please select an answer option!");
+                return;
+            }
+
+            if (parseInt(selected.value) === surveyQuestions[currentIdx].correct) {
+                score += 12.5; // Total 100 points max
+            }
+
+            // Handle optional file upload if user selected one on this question
+            const fileInput = document.getElementById('media-upload');
+            if (fileInput.files.length > 0) {
+                try {
+                    document.getElementById('upload-status').innerText = "Uploading evidence to Firebase Storage...";
+                    const file = fileInput.files[0];
+                    const storageRef = firebase.storage().ref().child(`evidence/${Date.now()}_${file.name}`);
+                    const snapshot = await storageRef.put(file);
+                    uploadedFileUrl = await snapshot.ref.getDownloadURL();
+                    document.getElementById('upload-status').innerText = "Evidence uploaded successfully! ✅";
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById('upload-status').innerText = "Upload failed.";
+                }
+            }
+
+            currentIdx++;
+            if (currentIdx < surveyQuestions.length) {
+                loadQuestion();
+            } else {
+                await finishMission();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIdx > 0) {
+                currentIdx--;
+                loadQuestion();
+            }
+        }
+
+        async function finishMission() {
+            document.getElementById('screen-survey').classList.add('hidden');
+            
+            // Save results to Firestore
+            try {
+                await firebase.firestore().collection('leaderboard').add({
+                    agentName: currentAgent,
+                    score: Math.round(score),
+                    evidenceUrl: uploadedFileUrl || "",
+                    date: new Date().toLocaleDateString()
+                });
+            } catch (e) {
+                console.error("Error saving score to Firestore:", e);
+            }
+
+            showLeaderboard();
+        }
+
+        async function showLeaderboard() {
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('screen-survey').classList.add('hidden');
+            document.getElementById('screen-leaderboard').classList.remove('hidden');
+
+            const listContainer = document.getElementById('leaderboard-list');
+            listContainer.innerHTML = `<div class="text-center text-xs text-pink-300 py-4">Fetching scores from cloud...</div>`;
+
+            try {
+                const snapshot = await firebase.firestore().collection('leaderboard').orderBy('score', 'desc').limit(15).get();
+                let html = "";
+                let rank = 1;
+
+                if (snapshot.empty) {
+                    listContainer.innerHTML = `<div class="text-center text-xs text-pink-300 py-4">No agent records found yet. Complete a mission!</div>`;
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const badge = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+                    html += `<div class="aqua-glass-inner p-3 rounded-xl flex items-center justify-between text-xs">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-bold text-pink-300 w-6 text-center">${badge}</span>
+                            <div>
+                                <div class="font-bold text-pink-100">${data.agentName}</div>
+                                <div class="text-[10px] text-pink-300">${data.date} ${data.evidenceUrl ? '• 📸 Has Evidence' : ''}</div>
+                            </div>
+                        </div>
+                        <div class="font-bold text-pink-200">${data.score} PTS</div>
+                    </div>`;
+                    rank++;
+                });
+                listContainer.innerHTML = html;
+            } catch (e) {
+                console.error(e);
+                listContainer.innerHTML = `<div class="text-center text-xs text-red-300 py-4">Failed to load leaderboard. Check Firebase rules.</div>`;
+            }
+        }
+
+        function resetToLogin() {
+            document.getElementById('screen-leaderboard').classList.add('hidden');
+            document.getElementById('screen-login').classList.remove('hidden');
+            document.getElementById('agent-name').value = '';
+        }
+    </script>
+</body>
+</html>
