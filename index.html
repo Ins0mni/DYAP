@@ -18,9 +18,9 @@
         const firebaseConfig = {
             apiKey: "AIzaSyDummyKeyForTruthGuardApp001",
             authDomain: "truthguard-brunei.firebaseapp.com",
-            databaseURL: "https://-brunei-default-rtdb.firebaseio.com",
-            projectId: "-brunei",
-            storageBucket: "-brunei.appspot.com",
+            databaseURL: "https://truthguard-brunei-default-rtdb.firebaseio.com",
+            projectId: "truthguard-brunei",
+            storageBucket: "truthguard-brunei.appspot.com",
             messagingSenderId: "123456789012",
             appId: "1:123456789012:web:abcdef123456789"
         };
@@ -162,10 +162,10 @@
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="goToStart()">
                 <div class="bg-gradient-to-r from-pink-400/80 to-rose-400/80 text-slate-950 font-extrabold px-3.5 py-1 rounded-full text-xs shadow-md tracking-wider border border-white/30">
-                    🌸 SAKURA AERO v1.29
+                    🌸 SAKURA AERO v2.9
                 </div>
                 <span class="font-extrabold text-sm md:text-base tracking-wide text-white drop-shadow-md">
-                    TRUTHGUARD <span class="text-pink-300 font-light">COMMUNITY EDITION</span>
+                    TRUTHGUARD <span class="text-pink-300 font-light">JUMPSCARE EDITION</span>
                 </span>
             </div>
 
@@ -454,7 +454,7 @@
     </div>
 
     <footer class="aqua-glass m-4 p-3 text-pink-200 font-semibold text-[10px] text-center max-w-5xl mx-auto w-[calc(100%-2rem)] z-30">
-        BRUNEI DIGITAL DEFENSE FORCE - TRUTHGUARD © 2026
+        BRUNEI DIGITAL DEFENSE FORCE © 2026 - TRUTHGUARD SAKURA AERO EDITION
     </footer>
 
     <script>
@@ -641,7 +641,32 @@
             initBubbles();
             renderAvatarGrid();
             initSampleLeaderboardIfEmpty();
+            loadQuestionsFromDatabase();
         });
+
+        // --- Firebase Database Synchronization for Questions ---
+        async function loadQuestionsFromDatabase() {
+            if (!window.firebaseDB) return;
+            try {
+                const questionsRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_questions');
+                const snapshot = await window.firebaseDB.get(questionsRef);
+                if (snapshot.exists()) {
+                    quizQuestions = snapshot.val();
+                }
+            } catch (e) {
+                console.log("Could not load questions from database, using defaults:", e);
+            }
+        }
+
+        async function saveQuestionsToDatabase() {
+            if (!window.firebaseDB) return;
+            try {
+                const questionsRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_questions');
+                await window.firebaseDB.set(questionsRef, quizQuestions);
+            } catch (e) {
+                console.log("Could not sync questions to database:", e);
+            }
+        }
 
         function toggleAdminSidebar() {
             playAquaSound('click');
@@ -1123,6 +1148,7 @@
             });
         }
 
+        // --- FileReader Base64 Conversion for Uploads ---
         function handleImageUpload(event, idx) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1193,6 +1219,9 @@
                     q.options = [opt0.value, opt1.value, opt2.value, opt3.value];
                 }
             });
+
+            // Sync updated questions array directly to Firebase Realtime Database
+            saveQuestionsToDatabase();
 
             closeEditorModal();
             if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
