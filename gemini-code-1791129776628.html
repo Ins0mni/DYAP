@@ -3,287 +3,1172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y2K Media Literacy Mission & Survey</title>
-    <!-- Tailwind CSS -->
+    <title>BRUNEI DIGITAL DEFENSE - TRUTHGUARD (SAKURA AERO)</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Modern Clean Sans & Japanese Zen/Geometric Feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Quicksand:wght@500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK Compat -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, set, get, push, child, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
+            databaseURL: "YOUR_FIREBASE_DATABASE_URL",
+            projectId: "YOUR_FIREBASE_PROJECT_ID",
+            storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
+            appId: "YOUR_FIREBASE_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        // Expose Firebase tools globally if needed for your app sync logic
+        window.firebaseDB = { db, ref, set, get, push, child, remove };
+    </script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Montserrat"', 'sans-serif'],
+                        rounded: ['"Quicksand"', 'sans-serif'],
+                        zen: ['"Zen Maru Gothic"', 'sans-serif']
+                    },
+                    colors: {
+                        sakuraBgStart: '#1a102f',
+                        sakuraBgMid: '#2d1b4e',
+                        sakuraBgEnd: '#4c1d47',
+                        sakuraPink: '#f472b6',
+                        sakuraLight: '#fbcfe8',
+                        sakuraAccent: '#fb7185'
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
-        .font-rounded { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #1a102f 0%, #2d1b4e 50%, #4c1d47 100%);
+            background-attachment: fixed;
+            font-family: 'Zen Maru Gothic', 'Montserrat', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 241, 242, 0.95), rgba(244, 114, 182, 0.3));
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(244, 114, 182, 0.35);
+            animation: rise 9s infinite ease-in;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-110vh) scale(1.3) rotate(360deg); opacity: 0; }
+        }
+
         .aqua-glass {
-            background: rgba(45, 27, 78, 0.75);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(244, 114, 182, 0.35);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            background: rgba(30, 20, 50, 0.55);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(244, 114, 182, 0.18);
+            border-radius: 22px;
+            box-shadow: 0 20px 40px rgba(15, 10, 30, 0.6), inset 0 1px 4px rgba(255, 255, 255, 0.2);
         }
+
         .aqua-glass-inner {
-            background: rgba(30, 15, 55, 0.6);
-            border: 1px solid rgba(236, 72, 153, 0.2);
+            background: rgba(20, 12, 35, 0.65);
+            border: 1px solid rgba(244, 114, 182, 0.14);
+            border-radius: 14px;
         }
+
         .aqua-button {
-            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            background: linear-gradient(to bottom, #f472b6 0%, #db2777 100%);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.45);
             transition: all 0.2s ease;
         }
         .aqua-button:hover {
+            background: linear-gradient(to bottom, #fbcfe8 0%, #be185d 100%);
             transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
+            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        .aqua-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3);
+        }
+
+        .avatar-card {
+            background: rgba(20, 12, 35, 0.5);
+            border: 1.5px solid rgba(0, 0, 0, 0.75);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+        .avatar-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), inset 0 1px 4px rgba(255, 255, 255, 0.2);
+        }
+        .avatar-card.selected {
+            background: linear-gradient(to bottom, rgba(244, 114, 182, 0.3), rgba(126, 34, 206, 0.4));
+            border: 2px solid rgba(0, 0, 0, 0.95);
+            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.3), inset 0 0 8px rgba(244, 114, 182, 0.5);
+        }
+
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float-gentle 3s ease-in-out infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a102f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(244, 114, 182, 0.6);
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="bg-[#0f071e] text-pink-100 font-rounded min-h-screen p-4 flex flex-col items-center justify-center">
+<body class="min-h-screen flex flex-col justify-between selection:bg-pink-400 selection:text-black relative">
 
-    <div class="max-w-lg w-full aqua-glass rounded-2xl p-6 relative overflow-hidden my-6">
-        <!-- Decorative Y2K Sparkles -->
-        <div class="absolute top-3 right-4 text-pink-300 text-xl animate-pulse">✨</div>
-        <div class="absolute bottom-3 left-4 text-purple-300 text-xl animate-bounce">💖</div>
+    <div id="bubble-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
 
-        <div class="text-center mb-6">
-            <h1 class="font-display font-bold text-2xl text-pink-300">🌸 TruthGuard Cyber Mission 🌸</h1>
-            <p class="text-xs text-pink-200/70 mt-1">Y2K Media Literacy Survey & Cloud Vault</p>
-            <div id="status-badge" class="mt-3 inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-yellow-500/20 text-yellow-300 border border-yellow-500/40">
-                Connecting to Firebase...
+    <header class="aqua-glass m-4 p-4 z-30 sticky top-4 max-w-5xl mx-auto w-[calc(100%-2rem)]">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="goToStart()">
+                <div class="bg-gradient-to-r from-pink-400/80 to-rose-400/80 text-slate-950 font-extrabold px-3.5 py-1 rounded-full text-xs shadow-md tracking-wider border border-white/30">
+                    🌸 SAKURA AERO v2.8
+                </div>
+                <span class="font-extrabold text-sm md:text-base tracking-wide text-white drop-shadow-md">
+                    BRUNEI TRUTHGUARD <span class="text-pink-300 font-light">JAPAN-AERO EDITION</span>
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleAdminSidebar()" class="aqua-button text-white font-semibold text-xs px-4 py-2 flex items-center gap-2 !bg-gradient-to-bottom !from-purple-400 !to-pink-600">
+                    <i class="fa-solid fa-shield-halved text-pink-100"></i> ADMIN PANEL
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ADMIN SIDEBAR DRAWER -->
+    <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 z-40 hidden bg-slate-950/70 backdrop-blur-sm transition-opacity"></div>
+    <div id="admin-sidebar" class="fixed top-0 right-0 z-50 h-full w-80 max-w-full aqua-glass border-l border-pink-500/30 transform translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between bg-[#1a102f]/95 shadow-2xl">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between border-b border-pink-400/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-pink-300"></i>
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-pink-200">RESTRICTED ADMIN PANEL</h3>
+                </div>
+                <button onclick="toggleAdminSidebar()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-2.5 py-1 rounded-full font-bold">X</button>
+            </div>
+
+            <!-- Password Entry Form -->
+            <div id="admin-auth-section" class="space-y-3">
+                <p class="font-rounded text-xs text-pink-200">Enter access password to unlock administrative controls:</p>
+                <div class="flex items-center aqua-glass-inner p-2.5">
+                    <input type="password" id="admin-password-input" placeholder="Password..." 
+                        class="font-bold text-xs text-white bg-transparent w-full focus:outline-none">
+                </div>
+                <button onclick="verifyAdminPassword()" class="aqua-button text-white font-bold text-xs w-full py-2.5 !bg-gradient-to-r !from-pink-500 !to-rose-600">
+                    AUTHENTICATE
+                </button>
+                <p id="admin-auth-error" class="text-[10px] text-rose-400 font-bold hidden text-center">Invalid password!</p>
+            </div>
+
+            <!-- Unlocked Admin Controls -->
+            <div id="admin-controls-section" class="space-y-3 hidden">
+                <div class="bg-emerald-950/40 border border-emerald-500/30 p-2 rounded-xl text-center text-[11px] text-emerald-300 font-bold">
+                    ✓ Admin Access Granted
+                </div>
+                <button onclick="openLeaderboardModalFromSidebar()" class="aqua-button text-white font-semibold text-xs w-full py-3 flex items-center justify-center gap-2 !bg-gradient-to-bottom !from-pink-400 !to-rose-600">
+                    <i class="fa-solid fa-torii-gate text-pink-100"></i> VIEW RANKINGS
+                </button>
+                <button onclick="openEditorModalFromSidebar()" class="aqua-button text-white font-semibold text-xs w-full py-3 flex items-center justify-center gap-2 !bg-gradient-to-bottom !from-purple-400 !to-pink-600">
+                    <i class="fa-solid fa-sliders text-pink-100"></i> EDIT QUIZ QUESTIONS
+                </button>
+                <button onclick="lockAdminSession()" class="text-[10px] text-pink-300 hover:text-white underline w-full text-center pt-2">
+                    Lock Admin Session
+                </button>
             </div>
         </div>
 
-        <!-- SCREEN 1: AGENT LOGIN / SETUP -->
-        <div id="screen-login" class="space-y-4">
-            <div class="aqua-glass-inner p-4 rounded-xl space-y-3">
-                <label class="block text-xs font-bold uppercase tracking-wider text-pink-300">Enter Agent Name</label>
-                <input type="text" id="agent-name" placeholder="e.g. CyberAgent01" class="w-full bg-[#170a2e] border border-pink-500/30 rounded-xl px-4 py-2.5 text-sm text-pink-100 focus:outline-none focus:border-pink-400">
+        <div class="text-[10px] text-center text-pink-300/60 font-semibold border-t border-pink-400/10 pt-3">
+            SECURE ACCESS PORTAL
+        </div>
+    </div>
+
+    <main class="max-w-3xl mx-auto w-full px-4 py-4 flex-grow flex flex-col justify-center z-20">
+
+        <!-- 1. START & AVATAR SCREEN -->
+        <div id="start-screen" class="space-y-6">
+            <div class="aqua-glass p-8 text-center space-y-4 relative overflow-hidden border-pink-400/25">
+                <div class="absolute -right-12 -top-12 w-36 h-36 bg-pink-500/15 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="inline-block text-[11px] font-bold text-pink-300 tracking-widest uppercase bg-pink-500/10 px-3 py-1 rounded-full border border-pink-400/20">
+                    〜 真実のガード 〜 Digital Truth Defense
+                </div>
+                <h1 class="font-extrabold text-xl md:text-3xl text-pink-100 drop-shadow-lg leading-tight">
+                    Dive Into Truth: Spot the Fake News!
+                </h1>
+                <p class="font-rounded text-sm md:text-base text-pink-200/90 max-w-xl mx-auto font-medium">
+                    Select your agent codename, pick a sleek sakura-styled avatar, and master information verification across Brunei waters with serene precision!
+                </p>
             </div>
-            <button onclick="startMission()" class="w-full aqua-button font-display font-bold py-3 px-4 rounded-xl text-white shadow-lg">
-                Start Mission & Survey 🚀
-            </button>
-            <button onclick="showLeaderboard()" class="w-full bg-purple-900/40 hover:bg-purple-900/60 border border-purple-500/30 text-pink-200 font-display font-bold py-2.5 px-4 rounded-xl text-xs transition">
-                View Global Leaderboard 🏆
-            </button>
+
+            <div class="aqua-glass p-6 space-y-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-ninja text-pink-300 text-lg"></i>
+                    <h2 class="font-bold text-xs uppercase tracking-wider text-pink-200">ENTER AGENT CODENAME:</h2>
+                </div>
+
+                <div class="flex items-center aqua-glass-inner p-3">
+                    <span class="font-bold text-sm text-pink-300 select-none pr-1">Agent:&nbsp;</span>
+                    <input type="text" id="agent-name-input" value="" placeholder="YourName" maxlength="15" 
+                        class="font-extrabold text-sm md:text-base text-white bg-transparent w-full focus:outline-none tracking-wider">
+                </div>
+            </div>
+
+            <div class="aqua-glass p-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-bold text-xs uppercase tracking-wider text-pink-200">
+                        <i class="fa-solid fa-fan mr-1"></i> SELECT YOUR SAKURA AQUA AVATAR:
+                    </h2>
+                    <span class="text-[10px] bg-pink-500/20 text-pink-200 border border-pink-400/25 px-2.5 py-1 rounded-full font-semibold">10 AVATARS READY</span>
+                </div>
+
+                <div id="avatar-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3"></div>
+
+                <div id="selected-avatar-info" class="aqua-glass-inner p-3.5 text-center flex items-center justify-center gap-2 transition-all duration-300 border border-black/60 shadow-inner">
+                    <i class="fa-solid fa-circle-check text-pink-300 text-xs"></i>
+                    <span class="font-rounded text-xs md:text-sm text-pink-100 font-semibold">
+                        Selected Avatar: <strong id="selected-avatar-name-display" class="text-pink-300 font-extrabold">Sakura-chan</strong>
+                    </span>
+                </div>
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="startQuiz()" class="aqua-button text-white font-extrabold text-sm md:text-base w-full py-4 tracking-wide flex items-center justify-center gap-3 shadow-xl !bg-gradient-to-r !from-pink-500 !via-rose-500 !to-purple-500 hover:!from-pink-400 hover:!to-purple-400">
+                    <i class="fa-solid fa-water animate-spin"></i>
+                    <span>LAUNCH VERIFICATION DIVE (出港)</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
 
-        <!-- SCREEN 2: SURVEY & UPLOAD MISSION -->
-        <div id="screen-survey" class="space-y-5 hidden">
-            <div class="flex justify-between items-center text-xs text-pink-300 border-b border-pink-500/20 pb-2">
-                <span id="question-progress" class="font-bold">Question 1 of 8</span>
-                <span id="agent-display" class="italic text-pink-200/80">Agent: </span>
+        <!-- 2. QUIZ GAME SCREEN -->
+        <div id="quiz-screen" class="hidden space-y-5">
+            <div class="aqua-glass p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <div id="active-hud-avatar" class="w-16 h-16 aqua-glass-inner p-1.5 flex-shrink-0 animate-float shadow-inner border border-black/50"></div>
+                    <div>
+                        <div id="hud-agent-codename" class="font-bold text-xs text-pink-200">Agent: Recipient</div>
+                        <div id="hud-avatar-status" class="inline-block mt-1 bg-purple-950/60 text-pink-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-pink-500/30">
+                            STATUS: SUBMERGED & READY
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-auto flex flex-wrap items-center justify-between md:justify-end gap-2 font-bold text-xs">
+                    <div class="aqua-glass-inner px-3 py-1.5 text-pink-100">
+                        SCORE: <span id="hud-score" class="text-pink-300 font-extrabold">0</span>
+                    </div>
+                    <div class="aqua-glass-inner px-3 py-1.5 text-pink-100">
+                        STREAK: <span id="hud-streak" class="text-rose-300 font-extrabold">0x</span>
+                    </div>
+                    <div class="aqua-glass-inner px-3 py-1.5 text-pink-100">
+                        TIME: <span id="hud-timer" class="text-amber-300 font-extrabold">0s</span>
+                    </div>
+                </div>
             </div>
 
-            <div id="question-container" class="aqua-glass-inner p-4 rounded-xl space-y-3">
-                <!-- Dynamically injected question content -->
+            <div class="aqua-glass p-3">
+                <div class="flex justify-between font-semibold text-[10px] mb-1.5 text-pink-200">
+                    <span id="question-progress-text">QUESTION 1 / 4</span>
+                    <span id="question-progress-percent">0%</span>
+                </div>
+                <div class="w-full bg-slate-950/70 rounded-full h-2.5 overflow-hidden p-0.5 border border-pink-500/20">
+                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-pink-400 via-rose-400 to-purple-400 h-full rounded-full w-0 transition-all duration-300 shadow-sm"></div>
+                </div>
             </div>
 
-            <!-- Media/Image Upload Feature connected to Firebase Storage -->
-            <div class="aqua-glass-inner p-4 rounded-xl space-y-2">
-                <label class="block text-xs font-bold uppercase tracking-wider text-pink-300">Upload Evidence / Poster Picture 📸</label>
-                <input type="file" id="media-upload" accept="image/*,audio/*" class="w-full text-xs text-pink-200 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-pink-500 file:text-white hover:file:bg-pink-600 cursor-pointer">
-                <div id="upload-status" class="text-[11px] text-pink-300"></div>
+            <div class="aqua-glass p-6 md:p-8 space-y-5 relative">
+                <div class="flex items-center justify-between">
+                    <span id="question-category-tag" class="bg-pink-500/20 text-pink-200 border border-pink-400/30 font-semibold text-[10px] px-3 py-1 rounded-full">
+                        CATEGORY: SCAM ALERT
+                    </span>
+                    <span class="text-[10px] text-amber-300 font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-shield-cat"></i> VERIFY BEFORE SHARING
+                    </span>
+                </div>
+
+                <h2 id="question-text-heading" class="font-zen font-bold text-base md:text-xl text-white leading-relaxed">
+                    Question text will appear here...
+                </h2>
+
+                <div id="question-image-box" class="hidden rounded-xl border border-pink-400/30 max-h-60 overflow-hidden bg-slate-950/60 flex items-center justify-center">
+                    <img id="question-img" src="" alt="Case Context" class="max-h-56 object-contain">
+                </div>
+
+                <div id="options-container" class="grid grid-cols-1 gap-3 pt-2"></div>
             </div>
 
-            <div class="flex space-x-3">
-                <button onclick="prevQuestion()" id="prev-btn" class="w-1/3 bg-purple-950/60 hover:bg-purple-900 border border-pink-500/30 font-bold py-2.5 rounded-xl text-xs text-pink-200 transition">Back</button>
-                <button onclick="nextQuestion()" id="next-btn" class="w-2/3 aqua-button font-display font-bold py-2.5 rounded-xl text-white text-xs shadow-lg">Next Question ➡️</button>
+            <div id="explanation-window" class="hidden aqua-glass p-5 space-y-3 border-pink-400/35">
+                <div id="explanation-title" class="font-bold text-xs flex items-center gap-2"></div>
+                <p id="explanation-body-text" class="font-rounded font-medium text-sm text-pink-50">
+                    Explanation text...
+                </p>
+                <button id="next-question-btn" onclick="nextQuestion()" class="aqua-button text-white font-extrabold text-xs w-full py-3 flex items-center justify-center gap-2 shadow-lg !bg-gradient-to-r !from-pink-500 !to-rose-700">
+                    <span>PROCEED DEEPER (次へ)</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
             </div>
         </div>
 
-        <!-- SCREEN 3: LEADERBOARD / RESULTS -->
-        <div id="screen-leaderboard" class="space-y-4 hidden">
-            <h2 class="font-display font-bold text-lg text-pink-300 text-center">Global Agent Rankings 🏆</h2>
-            <div id="leaderboard-list" class="space-y-2 max-h-64 overflow-y-auto pr-1">
-                <!-- Dynamically loaded from Firestore -->
-                <div class="text-center text-xs text-pink-300 py-4">Loading cloud scores...</div>
+        <!-- 3. GAME OVER SCREEN -->
+        <div id="result-screen" class="hidden space-y-6 text-center">
+            <div class="aqua-glass p-8 space-y-5">
+                <div id="result-avatar-container" class="w-24 h-24 mx-auto aqua-glass-inner p-2 animate-float shadow-xl border border-black/50"></div>
+
+                <div>
+                    <h2 class="font-extrabold text-lg md:text-2xl text-pink-200">
+                        MISSION REPORT 〜 任務完了 〜
+                    </h2>
+                    <p id="result-agent-fullname" class="font-bold text-xs text-pink-300 mt-1">
+                        Agent: Recipient
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3 max-w-md mx-auto font-bold text-xs">
+                    <div class="aqua-glass-inner p-3">
+                        <div class="text-[9px] text-pink-300">SCORE</div>
+                        <div id="res-score" class="text-white text-base md:text-lg font-extrabold">0</div>
+                    </div>
+                    <div class="aqua-glass-inner p-3">
+                        <div class="text-[9px] text-pink-300">ACCURACY</div>
+                        <div id="res-accuracy" class="text-pink-300 text-base md:text-lg font-extrabold">0%</div>
+                    </div>
+                    <div class="aqua-glass-inner p-3">
+                        <div class="text-[9px] text-pink-300">TIME</div>
+                        <div id="res-time" class="text-amber-300 text-base md:text-lg font-extrabold">0s</div>
+                    </div>
+                </div>
+
+                <div id="rank-badge-box" class="aqua-glass-inner p-4 font-zen space-y-1 max-w-md mx-auto border-pink-500/30">
+                    <div id="rank-badge-title" class="font-extrabold text-sm text-pink-200">SAKURA OCEAN GUARDIAN</div>
+                    <p id="rank-badge-desc" class="text-xs text-pink-100">You successfully kept the digital waters crystal clear!</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+                    <button onclick="goToStart()" class="aqua-button text-white font-bold text-xs px-6 py-3">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> DIVE AGAIN (もう一度)
+                    </button>
+                    <button onclick="toggleAdminSidebar(); openLeaderboardModal();" class="aqua-button text-white font-bold text-xs px-6 py-3 !bg-gradient-to-bottom !from-pink-500 !to-purple-700">
+                        <i class="fa-solid fa-torii-gate mr-1"></i> RANKINGS
+                    </button>
+                </div>
             </div>
-            <button onclick="resetToLogin()" class="w-full aqua-button font-display font-bold py-2.5 rounded-xl text-white text-xs shadow-lg">
-                Play Again / Home ✨
+        </div>
+
+    </main>
+
+    <!-- FULLSCREEN JUMPSCARE / BREACH OVERLAY -->
+    <div id="jumpscare-overlay" class="fixed inset-0 z-50 hidden select-none bg-black overflow-hidden flex flex-col justify-end">
+        <img id="jumpscare-img-element" src="" alt="Breach Alert" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none">
+        <div class="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
+        <div class="relative z-20 w-full p-4 flex justify-end">
+            <button onclick="closeJumpscareOverlay()" class="bg-black/80 hover:bg-black text-pink-300 hover:text-white font-bold text-xs px-4 py-2 rounded-xl backdrop-blur-md border border-pink-500/30 shadow-xl transition-all flex items-center gap-2">
+                <span>PROCEED (進む)</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
             </button>
         </div>
     </div>
 
-    <script>
-        // Your exact Firebase project configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAawBkPzFwdGzm_2KESPQYKXNUs14TkcWo",
-            authDomain: "truthguard-f65c7.firebaseapp.com",
-            projectId: "truthguard-f65c7",
-            storageBucket: "truthguard-f65c7.firebasestorage.app",
-            messagingSenderId: "360190613653",
-            appId: "1:360190613653:web:fdb2742337cf4b70a0a39c",
-            measurementId: "G-SPH132XTBJ"
-        };
+    <audio id="jumpscare-audio-player" class="hidden"></audio>
 
-        // Initialize Firebase
-        try {
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.firestore();
-            const storage = firebase.storage();
-            
-            document.getElementById('status-badge').className = "inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-green-500/20 text-green-300 border border-green-500/40";
-            document.getElementById('status-badge').innerText = "Firebase Cloud Online 🟢";
-        } catch (e) {
-            document.getElementById('status-badge').className = "inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-red-500/20 text-red-300 border border-red-500/40";
-            document.getElementById('status-badge').innerText = "Config Error ⚠️";
-            console.error(e);
+    <!-- LEADERBOARD MODAL -->
+    <div id="leaderboard-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div class="aqua-glass w-full max-w-xl p-6 space-y-4 max-h-[90vh] flex flex-col border-pink-500/30">
+            <div class="flex justify-between items-center border-b border-pink-400/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-torii-gate text-pink-300 text-xl"></i>
+                    <h3 class="font-bold text-sm text-pink-200">AGENT RANKINGS 〜 ランキング 〜</h3>
+                </div>
+                <button onclick="closeLeaderboardModal()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-3 py-1 rounded-full font-bold">X</button>
+            </div>
+
+            <div id="leaderboard-list" class="flex-grow overflow-y-auto space-y-2.5 pr-1"></div>
+
+            <div class="flex justify-between items-center border-t border-pink-400/20 pt-3">
+                <button onclick="resetLeaderboardData()" class="text-[10px] bg-red-900/50 text-red-200 border border-red-500/40 px-3 py-2 rounded-xl font-bold">
+                    <i class="fa-solid fa-trash mr-1"></i> RESET SCORES
+                </button>
+                <button onclick="closeLeaderboardModal()" class="aqua-button text-white font-bold text-xs px-5 py-2">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUESTION EDITOR MODAL -->
+    <div id="editor-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div class="aqua-glass w-full max-w-2xl p-6 space-y-4 max-h-[90vh] flex flex-col bg-[#1a102f]/95 border-pink-500/30">
+            <div class="flex justify-between items-center border-b border-pink-400/20 pb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-pink-300 text-xl"></i>
+                    <h3 class="font-bold text-sm text-pink-200">CUSTOM QUESTION & THREAT EDITOR</h3>
+                </div>
+                <button onclick="closeEditorModal()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-3 py-1 rounded-full font-bold">X</button>
+            </div>
+
+            <div id="editor-question-list" class="flex-grow overflow-y-auto space-y-4 pr-1"></div>
+
+            <div class="flex justify-between items-center border-t border-pink-400/20 pt-3">
+                <button onclick="addNewQuestionForm()" class="aqua-button text-white font-bold text-xs px-4 py-2 !bg-gradient-to-r !from-pink-500 !to-rose-600">
+                    + ADD QUESTION
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closeEditorModal()" class="aqua-glass-inner text-white font-bold text-xs px-4 py-2">CANCEL</button>
+                    <button onclick="saveCustomQuestions()" class="aqua-button text-white font-bold text-xs px-5 py-2 !bg-gradient-to-r !from-purple-500 !to-pink-600">
+                        SAVE QUIZ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="aqua-glass m-4 p-3 text-pink-200 font-semibold text-[10px] text-center max-w-5xl mx-auto w-[calc(100%-2rem)] z-30">
+        BRUNEI DIGITAL DEFENSE FORCE © 2026 - TRUTHGUARD SAKURA AERO EDITION
+    </footer>
+
+    <script>
+        function initBubbles() {
+            const container = document.getElementById('bubble-container');
+            const bubbleCount = 20;
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.floor(Math.random() * 26) + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDuration = `${Math.random() * 7 + 5}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(bubble);
+            }
         }
 
-        // 8-Question Media Literacy Survey Data
-        const surveyQuestions = [
-            { q: "1. You see a shocking headline shared by an unfamiliar account. What should you do first?", options: ["Share it immediately to warn friends", "Cross-check with trusted news or fact-checking sites", "Assume it's true because it has many likes"], correct: 1 },
-            { q: "2. An online store offers branded K-pop merchandise at a 95% discount. Is this safe?", options: ["Yes, it's a lucky limited-time promo", "No, it's likely a scam or fake product listing", "Only if paid via direct bank wire"], correct: 1 },
-            { q: "3. What is 'deepfake' media?", options: ["An underwater photography technique", "AI-manipulated video or audio that replaces faces or voices to spread misinformation", "A secure messaging privacy filter"], correct: 1 },
-            { q: "4. A viral rumor spreads about a local school event without official backing. How do you verify it?", options: ["Check official announcements or ask school authorities", "Retweet it to ask if anyone else heard it", "Ignore it and pretend it never happened"], correct: 0 },
-            { q: "5. Why do clickbait titles exist?", options: ["To educate readers thoroughly", "To generate advertising revenue through curiosity and sensationalism", "To protect user security online"], correct: 1 },
-            { q: "6. Which of these is a strong indicator of a secure website URL?", options: ["http:// and suspicious numbers", "https:// with a verified domain padlock", "Any link sent by a random chat group"], correct: 1 },
-            { q: "7. If someone online asks for your password or personal ID number, you should:", options: ["Share it if they claim to be tech support", "Never share it under any circumstance", "Post it publicly for help"], correct: 1 },
-            { q: "8. How does media literacy help communities in Brunei and beyond?", options: ["It stops the spread of false rumors and protects online safety", "It makes internet browsing slower", "It prevents people from downloading pictures"], correct: 0 }
+        const BRUNEI_AVATARS = [
+            {
+                name: "Sakura-chan",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#f472b6" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><path d="M 50 14 Q 58 24 50 34 Q 42 24 50 14 Z" fill="#ffe4e6"/><path d="M 28 26 Q 36 34 28 42 Q 20 34 28 26 Z" fill="#ffe4e6"/><path d="M 72 26 Q 80 34 72 42 Q 64 34 72 26 Z" fill="#ffe4e6"/><circle cx="35" cy="48" r="${mood==='scared'?7:4}" fill="#1a102f"/><circle cx="65" cy="48" r="${mood==='scared'?7:4}" fill="#1a102f"/><path d="M 38 ${mood==='happy'?70:(mood==='scared'?64:67)} Q 50 ${mood==='happy'?80:57} 62 ${mood==='scared'?64:67}" stroke="#1a102f" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M 30 28 Q 50 18 70 28" stroke="#fbcfe8" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`
+            },
+            {
+                name: "Cyber-Ren",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#9333ea" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><line x1="20" y1="50" x2="35" y2="50" stroke="#c084fc" stroke-width="3"/><line x1="65" y1="50" x2="80" y2="50" stroke="#c084fc" stroke-width="3"/><line x1="50" y1="20" x2="50" y2="32" stroke="#c084fc" stroke-width="3"/><circle cx="35" cy="46" r="5" fill="#38bdf8"/><circle cx="65" cy="46" r="5" fill="#38bdf8"/><path d="M 40 66 Q 50 ${mood==='happy'?76:61} 60 66" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/><polygon points="50,14 56,26 70,30 58,42 62,56 50,48 38,56 42,42 30,30 44,26" fill="#f472b6"/></svg>`
+            },
+            {
+                name: "Aero-Mei",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#0284c7" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><path d="M 22 36 Q 50 26 78 36" fill="none" stroke="#bae6fd" stroke-width="5" stroke-linecap="round"/><rect x="26" y="40" width="18" height="14" rx="5" fill="#0f172a" stroke="#bae6fd" stroke-width="2"/><rect x="56" y="40" width="18" height="14" rx="5" fill="#0f172a" stroke="#bae6fd" stroke-width="2"/><circle cx="35" cy="47" r="${mood==='scared'?6:3}" fill="#38bdf8"/><circle cx="65" cy="47" r="${mood==='scared'?6:3}" fill="#38bdf8"/><path d="M 42 66 Q 50 ${mood==='happy'?74:60} 58 66" stroke="#bae6fd" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`
+            },
+            {
+                name: "Neo-Kitsune",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#d946ef" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><polygon points="22,34 32,10 42,32" fill="#f472b6" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><polygon points="78,34 68,10 58,32" fill="#f472b6" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><ellipse cx="50" cy="48" rx="26" ry="12" fill="#1e1b4b" opacity="0.9"/><line x1="28" y1="48" x2="72" y2="48" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4,2"/><circle cx="36" cy="48" r="${mood==='scared'?5:2}" fill="#38bdf8"/><circle cx="64" cy="48" r="${mood==='scared'?5:2}" fill="#38bdf8"/></svg>`
+            },
+            {
+                name: "Hana-Guard",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#7e22ce" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><circle cx="50" cy="22" r="8" fill="#f472b6"/><circle cx="32" cy="28" r="7" fill="#f472b6"/><circle cx="68" cy="28" r="7" fill="#f472b6"/><circle cx="38" cy="48" r="4" fill="#fbcfe8"/><circle cx="62" cy="48" r="4" fill="#fbcfe8"/><path d="M 40 66 Q 50 ${mood==='happy'?74:58} 60 66" stroke="#fbcfe8" stroke-width="3" fill="none"/></svg>`
+            },
+            {
+                name: "Y2K-Miyu",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#fb7185" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><polygon points="35,26 38,36 48,38 38,40 35,50 32,40 22,38 32,36" fill="#fef08a"/><polygon points="65,26 68,36 78,38 68,40 65,50 62,40 52,38 62,36" fill="#fef08a"/><circle cx="35" cy="46" r="${mood==='scared'?7:4}" fill="#1e1b4b"/><circle cx="65" cy="46" r="${mood==='scared'?7:4}" fill="#1e1b4b"/><rect x="42" y="65" width="16" height="6" rx="2" fill="#ffffff"/></svg>`
+            },
+            {
+                name: "Shinobi-Kaze",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><polygon points="15,22 36,36 15,50" fill="#f43f5e" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><polygon points="85,22 64,36 85,50" fill="#f43f5e" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><circle cx="50" cy="52" r="38" fill="#0f172a" stroke="#f43f5e" stroke-width="2.5"/><path d="M 22 42 L 78 42" stroke="#f43f5e" stroke-width="4"/><circle cx="36" cy="46" r="${mood==='scared'?6:3}" fill="#fbcfe8"/><circle cx="64" cy="46" r="${mood==='scared'?6:3}" fill="#fbcfe8"/><path d="M 40" stroke="#fbcfe8"/></svg>`
+            },
+            {
+                name: "Aura-Star",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><path d="M 50 6 L 61 36 L 94 48 L 61 60 L 50 94 L 39 60 L 6 48 L 39 36 Z" fill="#f59e0b" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><circle cx="40" cy="48" r="4" fill="#ffffff"/><circle cx="60" cy="48" r="4" fill="#ffffff"/><path d="M 42 66 Q 50 ${mood==='happy'?74:58} 58 66" stroke="#ffffff" stroke-width="3" fill="none"/></svg>`
+            },
+            {
+                name: "Pixel-Akari",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><rect x="18" y="18" width="16" height="16" fill="#eab308" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><rect x="66" y="18" width="16" height="16" fill="#eab308" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><circle cx="50" cy="55" r="38" fill="#ec4899" stroke="#eab308" stroke-width="2.5"/><rect x="30" y="42" width="12" height="12" fill="#ffffff"/><rect x="58" y="42" width="12" height="12" fill="#ffffff"/><circle cx="36" cy="48" r="${mood==='scared'?5:2}" fill="#1e1b4b"/><circle cx="64" cy="48" r="${mood==='scared'?5:2}" fill="#1e1b4b"/><rect x="42" y="66" width="16" height="6" fill="#ffffff"/></svg>`
+            },
+            {
+                name: "Mecha-Aero",
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><rect x="16" y="12" width="68" height="76" rx="10" fill="#334155" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><rect x="24" y="20" width="52" height="32" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/><circle cx="40" cy="34" r="${mood==='scared'?5:3}" fill="#38bdf8"/><circle cx="60" cy="34" r="${mood==='scared'?5:3}" fill="#38bdf8"/><line x1="42" y1="44" x2="58" y2="44" stroke="#38bdf8" stroke-width="3"/><circle cx="50" cy="72" r="6" fill="#f43f5e" stroke="#38bdf8" stroke-width="2"/></svg>`
+            }
         ];
 
-        let currentIdx = 0;
-        let score = 0;
-        let currentAgent = "";
-        let uploadedFileUrl = "";
-
-        function startMission() {
-            const nameInput = document.getElementById('agent-name').value.trim();
-            if (!nameInput) {
-                alert("Please enter your Agent code name first!");
-                return;
+        let quizQuestions = [
+            {
+                id: 1,
+                category: "WhatsApp Viral Rumors",
+                question: "A WhatsApp voice message warns that Sultan Haji Omar 'Ali Saifuddien Bridge will be closed indefinitely due to shifting ocean currents. Is this verified?",
+                image: null,
+                options: [
+                    "TRUE: Forward it to your family immediately!",
+                    "FALSE: Official marine and road advisories are always published by JKR Brunei / RTB first.",
+                    "TRUE: Ocean currents always close major bridges without warning.",
+                    "FALSE: Bridges in Brunei never experience closures."
+                ],
+                correctIndex: 1,
+                explanation: "Unverified voice notes on social media often spread unwarranted panic. Always check official JKR or RTB announcements.",
+                jumpscareImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop",
+                customAudioUrl: null
+            },
+            {
+                id: 2,
+                category: "Banking Phishing Scams",
+                question: "You receive an SMS link claiming your local Brunei bank account requires emergency biometric re-verification. What should you do?",
+                image: null,
+                options: [
+                    "Click the link and type your banking credentials instantly.",
+                    "DO NOT click! Banks in Brunei never request biometric or password verification via unverified SMS links.",
+                    "Send your password to the phone number provided.",
+                    "Call the random number listed in the text message."
+                ],
+                correctIndex: 1,
+                explanation: "Phishing links mimic trusted financial institutions. Always use official banking mobile apps or typed official web portals.",
+                jumpscareImage: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=1600&auto=format&fit=crop",
+                customAudioUrl: null
+            },
+            {
+                id: 3,
+                category: "Weather & BDMD Forecasts",
+                question: "A social media post claims a sudden tsunami warning is active for Brunei coastal waters. How do you verify this safely?",
+                image: null,
+                options: [
+                    "Panic and evacuate immediately without checking.",
+                    "Check the official Brunei Darussalam Meteorological Department (BDMD) weather app.",
+                    "Ask strangers in an online comment section.",
+                    "Ignore it and go swimming at Jerudong beach."
+                ],
+                correctIndex: 1,
+                explanation: "BDMD is the official government weather authority. Always verify natural disaster notices through official channels.",
+                jumpscareImage: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=1600&auto=format&fit=crop",
+                customAudioUrl: null
+            },
+            {
+                id: 4,
+                category: "Public Holiday Verification",
+                question: "A glossy graphic poster circulates on Instagram announcing an unexpected nationwide holiday tomorrow. What is the correct protocol?",
+                image: null,
+                options: [
+                    "Assume it's true and cancel your classes.",
+                    "Cross-check with Jabatan Perdana Menteri (JPM) or official RTB news broadcasts.",
+                    "Repost it to your story to ask if friends know more.",
+                    "Call the royal palace directly to confirm."
+                ],
+                correctIndex: 1,
+                explanation: "Official public holidays are formally declared and broadcasted through Jabatan Perdana Menteri and RTB.",
+                jumpscareImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop",
+                customAudioUrl: null
             }
-            currentAgent = nameInput;
-            document.getElementById('agent-display').innerText = `Agent: ${currentAgent}`;
-            currentIdx = 0;
-            score = 0;
-            uploadedFileUrl = "";
+        ];
 
-            document.getElementById('screen-login').classList.add('hidden');
-            document.getElementById('screen-survey').classList.remove('hidden');
+        let selectedAvatarIndex = 0;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let answeredCurrent = false;
+        let audioCtx = null;
+        let isAdminAuthenticated = false;
+
+        function playAquaSound(type) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(650, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(320, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.35);
+                } else if (type === 'breach') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(280, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                }
+            } catch (e) {
+                console.log("Audio SFX Error:", e);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initBubbles();
+            renderAvatarGrid();
+            initSampleLeaderboardIfEmpty();
+        });
+
+        function toggleAdminSidebar() {
+            playAquaSound('click');
+            const sidebar = document.getElementById('admin-sidebar');
+            const backdrop = document.getElementById('admin-sidebar-backdrop');
+            
+            const isClosed = sidebar.classList.contains('translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+        }
+
+        function verifyAdminPassword() {
+            playAquaSound('click');
+            const passInput = document.getElementById('admin-password-input');
+            const errorEl = document.getElementById('admin-auth-error');
+            const authSection = document.getElementById('admin-auth-section');
+            const controlsSection = document.getElementById('admin-controls-section');
+
+            if (passInput.value === '@BLUtacke21') {
+                isAdminAuthenticated = true;
+                errorEl.classList.add('hidden');
+                authSection.classList.add('hidden');
+                controlsSection.classList.remove('hidden');
+                passInput.value = '';
+            } else {
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        function lockAdminSession() {
+            playAquaSound('click');
+            isAdminAuthenticated = false;
+            document.getElementById('admin-auth-section').classList.remove('hidden');
+            document.getElementById('admin-controls-section').classList.add('hidden');
+        }
+
+        function openLeaderboardModalFromSidebar() {
+            toggleAdminSidebar();
+            openLeaderboardModal();
+        }
+
+        function openEditorModalFromSidebar() {
+            toggleAdminSidebar();
+            openEditorModal();
+        }
+
+        function renderAvatarGrid() {
+            const grid = document.getElementById('avatar-grid');
+            grid.innerHTML = '';
+
+            BRUNEI_AVATARS.forEach((avatar, idx) => {
+                const card = document.createElement('div');
+                const isSelected = idx === selectedAvatarIndex;
+                card.className = `avatar-card p-2 cursor-pointer flex justify-center items-center ${
+                    isSelected ? 'selected' : ''
+                }`;
+
+                card.onclick = () => {
+                    playAquaSound('click');
+                    selectedAvatarIndex = idx;
+                    renderAvatarGrid();
+                };
+
+                card.innerHTML = `
+                    <div class="w-14 h-14 aqua-glass-inner p-1 border border-black/40">
+                        ${avatar.svg('neutral')}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            const nameDisplay = document.getElementById('selected-avatar-name-display');
+            if (nameDisplay) {
+                nameDisplay.textContent = BRUNEI_AVATARS[selectedAvatarIndex].name;
+            }
+        }
+
+        function getFullAgentCodename() {
+            const inputVal = document.getElementById('agent-name-input').value.trim() || "Anonymous";
+            return `Agent: ${inputVal}`;
+        }
+
+        function startQuiz() {
+            playAquaSound('click');
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+
+            score = 0;
+            streak = 0;
+            timerSeconds = 0;
+            currentQuestionIndex = 0;
+
+            document.getElementById('hud-agent-codename').textContent = getFullAgentCodename();
+            const activeAvatarContainer = document.getElementById('active-hud-avatar');
+            activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('neutral');
+
+            startTimer();
             loadQuestion();
         }
 
-        function loadQuestion() {
-            const qObj = surveyQuestions[currentIdx];
-            document.getElementById('question-progress').innerText = `Question ${currentIdx + 1} of ${surveyQuestions.length}`;
-            
-            const container = document.getElementById('question-container');
-            let html = `<p class="font-semibold text-sm text-pink-100">${qObj.q}</p><div class="space-y-2 mt-2">`;
-            
-            qObj.options.forEach((opt, idx) => {
-                html += `<label class="flex items-center space-x-2 text-xs bg-[#241342]/70 p-2.5 rounded-lg border border-pink-500/20 cursor-pointer hover:border-pink-400">
-                    <input type="radio" name="quiz-option" value="${idx}" class="text-pink-500 focus:ring-pink-400">
-                    <span class="text-pink-200">${opt}</span>
-                </label>`;
-            });
-            html += `</div>`;
-            container.innerHTML = html;
-            document.getElementById('prev-btn').style.display = currentIdx === 0 ? 'none' : 'block';
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                document.getElementById('hud-timer').textContent = `${timerSeconds}s`;
+            }, 1000);
         }
 
-        async function nextQuestion() {
-            const selected = document.querySelector('input[name="quiz-option"]:checked');
-            if (!selected) {
-                alert("Please select an answer option!");
+        function goToStart() {
+            playAquaSound('click');
+            clearInterval(timerInterval);
+            document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.add('hidden');
+            renderAvatarGrid();
+        }
+
+        function loadQuestion() {
+            answeredCurrent = false;
+            document.getElementById('explanation-window').classList.add('hidden');
+
+            const q = quizQuestions[currentQuestionIndex];
+            const total = quizQuestions.length;
+            const progress = ((currentQuestionIndex + 1) / total) * 100;
+
+            document.getElementById('hud-score').textContent = score;
+            document.getElementById('hud-streak').textContent = `${streak}x`;
+            document.getElementById('question-progress-text').textContent = `QUESTION ${currentQuestionIndex + 1} / ${total}`;
+            document.getElementById('question-progress-percent').textContent = `${Math.round(progress)}%`;
+            document.getElementById('quiz-progress-bar').style.width = `${progress}%`;
+
+            const activeAvatarContainer = document.getElementById('active-hud-avatar');
+            activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('neutral');
+            
+            document.getElementById('hud-avatar-status').textContent = "STATUS: SUBMERGED & READY";
+            document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-purple-950/60 text-pink-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-pink-500/30";
+
+            document.getElementById('question-category-tag').textContent = `CATEGORY: ${q.category.toUpperCase()}`;
+            document.getElementById('question-text-heading').textContent = q.question;
+
+            const imgBox = document.getElementById('question-image-box');
+            const imgEl = document.getElementById('question-img');
+            if (q.image) {
+                imgEl.src = q.image;
+                imgBox.classList.remove('hidden');
+            } else {
+                imgBox.classList.add('hidden');
+            }
+
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "aqua-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-[#201538]/90 !to-[#2d1b4e]/90 hover:!from-pink-600 hover:!to-purple-600 border border-pink-500/25";
+                btn.innerHTML = `
+                    <span class="font-bold text-xs bg-pink-500/20 text-pink-200 border border-pink-400/30 px-2.5 py-1 rounded-lg flex-shrink-0">
+                        ${String.fromCharCode(65 + idx)}
+                    </span>
+                    <span class="text-sm md:text-base leading-snug">${optText}</span>
+                `;
+                btn.onclick = () => handleAnswerSelection(idx);
+                optsContainer.appendChild(btn);
+            });
+        }
+
+        function handleAnswerSelection(selectedIndex) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+
+            const q = quizQuestions[currentQuestionIndex];
+            const isCorrect = selectedIndex === q.correctIndex;
+            const optionButtons = document.getElementById('options-container').children;
+
+            for (let i = 0; i < optionButtons.length; i++) {
+                optionButtons[i].disabled = true;
+                if (i === q.correctIndex) {
+                    optionButtons[i].className = "aqua-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-teal-800 !to-emerald-900 border border-emerald-400/60";
+                } else if (i === selectedIndex && !isCorrect) {
+                    optionButtons[i].className = "aqua-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-rose-900 !to-red-950 border border-red-500/60";
+                }
+            }
+
+            const activeAvatarContainer = document.getElementById('active-hud-avatar');
+
+            if (isCorrect) {
+                playAquaSound('correct');
+                streak++;
+                score += 150 + (streak * 50);
+                document.getElementById('hud-score').textContent = score;
+                document.getElementById('hud-streak').textContent = `${streak}x`;
+
+                activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('happy');
+                document.getElementById('hud-avatar-status').textContent = "STATUS: VERIFIED (真実)!";
+                document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-emerald-950/60 text-emerald-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-emerald-500/40";
+
+                showExplanationWindow(true, q.explanation);
+            } else {
+                streak = 0;
+                document.getElementById('hud-streak').textContent = "0x";
+
+                activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('scared');
+                document.getElementById('hud-avatar-status').textContent = "STATUS: BREACHED (警告)!";
+                document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-red-950/60 text-red-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-red-500/40";
+
+                triggerJumpscareOverlay(q.jumpscareImage, q.customAudioUrl);
+                showExplanationWindow(false, q.explanation);
+            }
+        }
+
+        function triggerJumpscareOverlay(imgUrl, customAudioUrl) {
+            const overlay = document.getElementById('jumpscare-overlay');
+            const scareImg = document.getElementById('jumpscare-img-element');
+            const player = document.getElementById('jumpscare-audio-player');
+
+            scareImg.src = imgUrl || "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=1600&auto=format&fit=crop";
+
+            if (customAudioUrl) {
+                player.src = customAudioUrl;
+                player.play().catch(e => console.log("Custom audio playback failed:", e));
+            } else {
+                playAquaSound('breach');
+            }
+
+            overlay.classList.remove('hidden');
+        }
+
+        function closeJumpscareOverlay() {
+            playAquaSound('click');
+            const player = document.getElementById('jumpscare-audio-player');
+            player.pause();
+            player.currentTime = 0;
+
+            document.getElementById('jumpscare-overlay').classList.add('hidden');
+        }
+
+        function showExplanationWindow(isCorrect, text) {
+            const expWindow = document.getElementById('explanation-window');
+            const expTitle = document.getElementById('explanation-title');
+            const expText = document.getElementById('explanation-body-text');
+
+            expWindow.classList.remove('hidden');
+            if (isCorrect) {
+                expTitle.className = "font-bold text-xs text-emerald-300 flex items-center gap-2";
+                expTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i><span>FACT VERIFIED CORRECTLY (正解)!</span>`;
+            } else {
+                expTitle.className = "font-bold text-xs text-rose-300 flex items-center gap-2";
+                expTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg"></i><span>TRICKED BY MISINFORMATION (フェイク)!</span>`;
+            }
+            expText.textContent = text;
+        }
+
+        function nextQuestion() {
+            playAquaSound('click');
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                finishQuizMission();
+            }
+        }
+
+        function finishQuizMission() {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            const total = quizQuestions.length;
+            const accuracy = Math.round((score / (total * 200)) * 100);
+            const fullCodename = getFullAgentCodename();
+
+            document.getElementById('res-score').textContent = score;
+            document.getElementById('res-accuracy').textContent = `${Math.min(100, accuracy)}%`;
+            document.getElementById('res-time').textContent = `${timerSeconds}s`;
+            document.getElementById('result-agent-fullname').textContent = fullCodename;
+
+            const resAvatarContainer = document.getElementById('result-avatar-container');
+            resAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg(accuracy >= 50 ? 'happy' : 'scared');
+
+            const badgeTitle = document.getElementById('rank-badge-title');
+            const badgeDesc = document.getElementById('rank-badge-desc');
+
+            if (accuracy >= 80) {
+                badgeTitle.textContent = "🌸 SAKURA SUPREME TRUTH COMMANDER";
+                badgeDesc.textContent = "Flawless navigation! You shielded Bruneian digital waters from viral rumors and scams.";
+            } else if (accuracy >= 50) {
+                badgeTitle.textContent = "⛩ CERTIFIED SAKURA INVESTIGATOR";
+                badgeDesc.textContent = "Great dive! You verified most threats, though a few rogue bubbles slipped through.";
+            } else {
+                badgeTitle.textContent = "🌊 DEEP RECRUIT IN TRAINING";
+                badgeDesc.textContent = "Warning! Misinformation tide overwhelmed your sensors. Check official portals and retry!";
+            }
+
+            saveScoreToLeaderboard({
+                agentName: fullCodename,
+                avatarIndex: selectedAvatarIndex,
+                score: score,
+                accuracy: Math.min(100, accuracy),
+                timeSeconds: timerSeconds,
+                date: new Date().toLocaleDateString('en-GB')
+            });
+        }
+
+        function saveScoreToLeaderboard(entry) {
+            let scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+            scores.push(entry);
+            scores.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
+            scores = scores.slice(0, 20);
+            localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify(scores));
+        }
+
+        function initSampleLeaderboardIfEmpty() {
+            const existing = localStorage.getItem('brunei_truthguard_sakura_leaderboard');
+            if (existing === null) {
+                localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify([]));
+            }
+        }
+
+        function openLeaderboardModal() {
+            renderLeaderboardList();
+            document.getElementById('leaderboard-modal').classList.remove('hidden');
+        }
+
+        function closeLeaderboardModal() {
+            playAquaSound('click');
+            document.getElementById('leaderboard-modal').classList.add('hidden');
+        }
+
+        function renderLeaderboardList() {
+            const container = document.getElementById('leaderboard-list');
+            const scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+            container.innerHTML = '';
+
+            if (scores.length === 0) {
+                container.innerHTML = `<div class="font-rounded text-center p-4 text-pink-200">No high scores logged yet! Complete a mission first.</div>`;
                 return;
             }
 
-            if (parseInt(selected.value) === surveyQuestions[currentIdx].correct) {
-                score += 12.5; // Total 100 points max
-            }
+            scores.forEach((item, index) => {
+                const rankIcons = ['🥇', '🥈', '🥉'];
+                const rankDisplay = index < 3 ? rankIcons[index] : `#${index + 1}`;
+                const avatar = BRUNEI_AVATARS[item.avatarIndex] || BRUNEI_AVATARS[0];
 
-            // Handle optional file upload if user selected one on this question
-            const fileInput = document.getElementById('media-upload');
-            if (fileInput.files.length > 0) {
-                try {
-                    document.getElementById('upload-status').innerText = "Uploading evidence to Firebase Storage...";
-                    const file = fileInput.files[0];
-                    const storageRef = firebase.storage().ref().child(`evidence/${Date.now()}_${file.name}`);
-                    const snapshot = await storageRef.put(file);
-                    uploadedFileUrl = await snapshot.ref.getDownloadURL();
-                    document.getElementById('upload-status').innerText = "Evidence uploaded successfully! ✅";
-                } catch (err) {
-                    console.error(err);
-                    document.getElementById('upload-status').innerText = "Upload failed.";
-                }
-            }
+                const row = document.createElement('div');
+                row.className = `aqua-button p-3 flex items-center justify-between !bg-gradient-to-r ${
+                    index === 0 ? '!from-pink-950/80 !to-purple-950/80 border border-pink-300/40' : '!from-[#201538]/80 !to-[#2d1b4e]/80'
+                }`;
 
-            currentIdx++;
-            if (currentIdx < surveyQuestions.length) {
-                loadQuestion();
-            } else {
-                await finishMission();
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="font-extrabold text-sm w-8 text-center text-pink-200">${rankDisplay}</span>
+                        <div class="w-10 h-10 aqua-glass-inner p-0.5 flex-shrink-0 border border-black/40">
+                            ${avatar.svg('happy')}
+                        </div>
+                        <div>
+                            <div class="font-bold text-xs text-pink-100">${item.agentName}</div>
+                            <div class="font-rounded text-[11px] text-pink-300">${item.date} • ${item.timeSeconds}s • <span class="text-pink-200">${avatar.name}</span></div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-extrabold text-xs text-pink-200">${item.score} PTS</div>
+                        <div class="font-bold text-[9px] text-pink-300">${item.accuracy}% ACC</div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function resetLeaderboardData() {
+            if (confirm("Reset all Sakura leaderboard local records?")) {
+                localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify([]));
+                renderLeaderboardList();
             }
         }
 
-        function prevQuestion() {
-            if (currentIdx > 0) {
-                currentIdx--;
-                loadQuestion();
-            }
+        function openEditorModal() {
+            renderEditorQuestionForms();
+            document.getElementById('editor-modal').classList.remove('hidden');
         }
 
-        async function finishMission() {
-            document.getElementById('screen-survey').classList.add('hidden');
-            
-            // Save results to Firestore
-            try {
-                await firebase.firestore().collection('leaderboard').add({
-                    agentName: currentAgent,
-                    score: Math.round(score),
-                    evidenceUrl: uploadedFileUrl || "",
-                    date: new Date().toLocaleDateString()
-                });
-            } catch (e) {
-                console.error("Error saving score to Firestore:", e);
-            }
-
-            showLeaderboard();
+        function closeEditorModal() {
+            playAquaSound('click');
+            document.getElementById('editor-modal').classList.add('hidden');
         }
 
-        async function showLeaderboard() {
-            document.getElementById('screen-login').classList.add('hidden');
-            document.getElementById('screen-survey').classList.add('hidden');
-            document.getElementById('screen-leaderboard').classList.remove('hidden');
+        function renderEditorQuestionForms() {
+            const list = document.getElementById('editor-question-list');
+            list.innerHTML = '';
 
-            const listContainer = document.getElementById('leaderboard-list');
-            listContainer.innerHTML = `<div class="text-center text-xs text-pink-300 py-4">Fetching scores from cloud...</div>`;
+            quizQuestions.forEach((q, idx) => {
+                const formCard = document.createElement('div');
+                formCard.className = "aqua-glass-inner p-4 space-y-3 border border-pink-400/25";
 
-            try {
-                const snapshot = await firebase.firestore().collection('leaderboard').orderBy('score', 'desc').limit(15).get();
-                let html = "";
-                let rank = 1;
+                formCard.innerHTML = `
+                    <div class="flex justify-between items-center text-[10px] text-pink-300 border-b border-pink-400/20 pb-1 font-bold">
+                        <span>QUESTION #${idx + 1}</span>
+                        <button onclick="removeQuestionFromEditor(${idx})" class="bg-red-500/30 text-red-200 px-2 py-0.5 rounded border border-red-400/40">DELETE</button>
+                    </div>
 
-                if (snapshot.empty) {
-                    listContainer.innerHTML = `<div class="text-center text-xs text-pink-300 py-4">No agent records found yet. Complete a mission!</div>`;
-                    return;
-                }
+                    <div>
+                        <label class="text-[9px] block text-pink-200 font-bold">QUESTION TEXT:</label>
+                        <input type="text" id="ed-qtext-${idx}" value="${q.question.replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
+                    </div>
 
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const badge = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
-                    html += `<div class="aqua-glass-inner p-3 rounded-xl flex items-center justify-between text-xs">
-                        <div class="flex items-center space-x-3">
-                            <span class="font-bold text-pink-300 w-6 text-center">${badge}</span>
-                            <div>
-                                <div class="font-bold text-pink-100">${data.agentName}</div>
-                                <div class="text-[10px] text-pink-300">${data.date} ${data.evidenceUrl ? '• 📸 Has Evidence' : ''}</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="text-[9px] block text-pink-200 font-bold">CATEGORY:</label>
+                            <input type="text" id="ed-cat-${idx}" value="${q.category}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
+                        </div>
+                        <div>
+                            <label class="text-[9px] block text-pink-200 font-bold">CORRECT INDEX (0-3):</label>
+                            <input type="number" min="0" max="3" id="ed-corr-${idx}" value="${q.correctIndex}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[9px] block text-pink-200 font-bold">FACT EXPLANATION:</label>
+                        <textarea id="ed-exp-${idx}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white h-12 border border-pink-500/30">${q.explanation}</textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1 border-t border-pink-500/20">
+                        <div>
+                            <label class="text-[9px] block text-pink-200 font-bold">IMAGE URL OR UPLOAD:</label>
+                            <div class="flex gap-1">
+                                <input type="text" id="ed-img-${idx}" value="${q.image || ''}" placeholder="https://..." class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30">
+                                <label class="aqua-button px-2.5 py-1 text-[10px] cursor-pointer flex items-center justify-center font-bold text-white whitespace-nowrap">
+                                    <i class="fa-solid fa-upload"></i>
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, ${idx})">
+                                </label>
                             </div>
                         </div>
-                        <div class="font-bold text-pink-200">${data.score} PTS</div>
-                    </div>`;
-                    rank++;
-                });
-                listContainer.innerHTML = html;
-            } catch (e) {
-                console.error(e);
-                listContainer.innerHTML = `<div class="text-center text-xs text-red-300 py-4">Failed to load leaderboard. Check Firebase rules.</div>`;
-            }
+                        <div>
+                            <label class="text-[9px] block text-pink-200 font-bold">BREACH ALERT AUDIO URL OR UPLOAD:</label>
+                            <div class="flex gap-1">
+                                <input type="text" id="ed-audio-${idx}" value="${q.customAudioUrl || ''}" placeholder="https://... (mp3/wav)" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30">
+                                <label class="aqua-button px-2.5 py-1 text-[10px] cursor-pointer flex items-center justify-center font-bold text-white whitespace-nowrap">
+                                    <i class="fa-solid fa-music"></i>
+                                    <input type="file" accept="audio/*" class="hidden" onchange="handleAudioUpload(event, ${idx})">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(formCard);
+            });
         }
 
-        function resetToLogin() {
-            document.getElementById('screen-leaderboard').classList.add('hidden');
-            document.getElementById('screen-login').classList.remove('hidden');
-            document.getElementById('agent-name').value = '';
+        function handleImageUpload(event, idx) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(`ed-img-${idx}`).value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleAudioUpload(event, idx) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(`ed-audio-${idx}`).value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function addNewQuestionForm() {
+            quizQuestions.push({
+                id: Date.now(),
+                category: "Brunei Scam Alert",
+                question: "New custom question regarding Brunei misinformation?",
+                image: null,
+                options: [
+                    "Correct option explanation",
+                    "Fake option A",
+                    "Fake option B",
+                    "Fake option C"
+                ],
+                correctIndex: 0,
+                explanation: "Explanation of verified truth.",
+                jumpscareImage: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=1600&auto=format&fit=crop",
+                customAudioUrl: null
+            });
+            renderEditorQuestionForms();
+        }
+
+        function removeQuestionFromEditor(idx) {
+            if (quizQuestions.length <= 1) return;
+            quizQuestions.splice(idx, 1);
+            renderEditorQuestionForms();
+        }
+
+        function saveCustomQuestions() {
+            quizQuestions.forEach((q, idx) => {
+                const txt = document.getElementById(`ed-qtext-${idx}`);
+                const cat = document.getElementById(`ed-cat-${idx}`);
+                const corr = document.getElementById(`ed-corr-${idx}`);
+                const exp = document.getElementById(`ed-exp-${idx}`);
+                const img = document.getElementById(`ed-img-${idx}`);
+                const aud = document.getElementById(`ed-audio-${idx}`);
+
+                if (txt) q.question = txt.value;
+                if (cat) q.category = cat.value;
+                if (corr) q.correctIndex = parseInt(corr.value) || 0;
+                if (exp) q.explanation = exp.value;
+                if (img) q.image = img.value.trim() ? img.value.trim() : null;
+                if (aud) q.customAudioUrl = aud.value.trim() ? aud.value.trim() : null;
+            });
+
+            closeEditorModal();
+            if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
+                loadQuestion();
+            }
         }
     </script>
 </body>
