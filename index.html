@@ -18,9 +18,9 @@
         const firebaseConfig = {
             apiKey: "AIzaSyDummyKeyForTruthGuardApp001",
             authDomain: "truthguard-brunei.firebaseapp.com",
-            databaseURL: "https://truthguard-brunei-default-rtdb.firebaseio.com",
-            projectId: "truthguard-brunei",
-            storageBucket: "truthguard-brunei.appspot.com",
+            databaseURL: "https://-brunei-default-rtdb.firebaseio.com",
+            projectId: "-brunei",
+            storageBucket: "-brunei.appspot.com",
             messagingSenderId: "123456789012",
             appId: "1:123456789012:web:abcdef123456789"
         };
@@ -162,10 +162,10 @@
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="goToStart()">
                 <div class="bg-gradient-to-r from-pink-400/80 to-rose-400/80 text-slate-950 font-extrabold px-3.5 py-1 rounded-full text-xs shadow-md tracking-wider border border-white/30">
-                    🌸 SAKURA AERO v2.9
+                    🌸 SAKURA AERO v1.29
                 </div>
                 <span class="font-extrabold text-sm md:text-base tracking-wide text-white drop-shadow-md">
-                    TRUTHGUARD <span class="text-pink-300 font-light">JUMPSCARE EDITION</span>
+                    TRUTHGUARD <span class="text-pink-300 font-light">COMMUNITY EDITION</span>
                 </span>
             </div>
 
@@ -454,7 +454,7 @@
     </div>
 
     <footer class="aqua-glass m-4 p-3 text-pink-200 font-semibold text-[10px] text-center max-w-5xl mx-auto w-[calc(100%-2rem)] z-30">
-        BRUNEI DIGITAL DEFENSE FORCE © 2026 - TRUTHGUARD SAKURA AERO EDITION
+        BRUNEI DIGITAL DEFENSE FORCE - TRUTHGUARD © 2026
     </footer>
 
     <script>
@@ -1040,6 +1040,8 @@
                 const formCard = document.createElement('div');
                 formCard.className = "aqua-glass-inner p-4 space-y-3 border border-pink-400/25";
 
+                const opts = q.options || ["", "", "", ""];
+
                 formCard.innerHTML = `
                     <div class="flex justify-between items-center text-[10px] text-pink-300 border-b border-pink-400/20 pb-1 font-bold">
                         <span>QUESTION #${idx + 1}</span>
@@ -1057,12 +1059,39 @@
                             <input type="text" id="ed-cat-${idx}" value="${q.category}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
                         </div>
                         <div>
-                            <label class="text-[9px] block text-pink-200 font-bold">CORRECT INDEX (0-3):</label>
-                            <input type="number" min="0" max="3" id="ed-corr-${idx}" value="${q.correctIndex}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
+                            <label class="text-[9px] block text-pink-200 font-bold">CORRECT ANSWER (1-4):</label>
+                            <select id="ed-corr-${idx}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30 bg-[#1a102f]">
+                                <option value="1" ${(q.correctIndex === 0) ? 'selected' : ''}>Answer 1</option>
+                                <option value="2" ${(q.correctIndex === 1) ? 'selected' : ''}>Answer 2</option>
+                                <option value="3" ${(q.correctIndex === 2) ? 'selected' : ''}>Answer 3</option>
+                                <option value="4" ${(q.correctIndex === 3) ? 'selected' : ''}>Answer 4</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="space-y-2 border-t border-pink-500/20 pt-2">
+                        <label class="text-[9px] block text-pink-200 font-bold uppercase">ARRANGE ANSWERS (1 TO 4):</label>
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold text-pink-300 w-6">1.</span>
+                                <input type="text" id="ed-opt-${idx}-0" value="${opts[0].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold text-pink-300 w-6">2.</span>
+                                <input type="text" id="ed-opt-${idx}-1" value="${opts[1].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold text-pink-300 w-6">3.</span>
+                                <input type="text" id="ed-opt-${idx}-2" value="${opts[2].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold text-pink-300 w-6">4.</span>
+                                <input type="text" id="ed-opt-${idx}-3" value="${opts[3].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-pink-500/20 pt-2">
                         <label class="text-[9px] block text-pink-200 font-bold">FACT EXPLANATION:</label>
                         <textarea id="ed-exp-${idx}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white h-12 border border-pink-500/30">${q.explanation}</textarea>
                     </div>
@@ -1151,10 +1180,18 @@
 
                 if (txt) q.question = txt.value;
                 if (cat) q.category = cat.value;
-                if (corr) q.correctIndex = parseInt(corr.value) || 0;
+                if (corr) q.correctIndex = parseInt(corr.value) - 1;
                 if (exp) q.explanation = exp.value;
                 if (img) q.jumpscareImage = img.value.trim() ? img.value.trim() : null;
                 if (aud) q.customAudioUrl = aud.value.trim() ? aud.value.trim() : null;
+
+                const opt0 = document.getElementById(`ed-opt-${idx}-0`);
+                const opt1 = document.getElementById(`ed-opt-${idx}-1`);
+                const opt2 = document.getElementById(`ed-opt-${idx}-2`);
+                const opt3 = document.getElementById(`ed-opt-${idx}-3`);
+                if (opt0 && opt1 && opt2 && opt3) {
+                    q.options = [opt0.value, opt1.value, opt2.value, opt3.value];
+                }
             });
 
             closeEditorModal();
