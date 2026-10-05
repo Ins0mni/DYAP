@@ -208,7 +208,7 @@
                     ✓ Admin Access Granted
                 </div>
                 <button onclick="openEditorModalFromSidebar()" class="aqua-button text-white font-semibold text-xs w-full py-3 flex items-center justify-center gap-2 !bg-gradient-to-bottom !from-purple-400 !to-pink-600">
-                    <i class="fa-solid fa-sliders text-pink-100"></i> EDIT QUESTIONS & JUMPSCARES
+                    <i class="fa-solid fa-sliders text-pink-100"></i> EDIT QUESTIONS
                 </button>
                 <button onclick="lockAdminSession()" class="text-[10px] text-pink-300 hover:text-white underline w-full text-center pt-2">
                     Lock Admin Session
@@ -230,10 +230,10 @@
                     〜 真実のガード 〜 Misinformation Truth Defense
                 </div>
                 <h1 class="font-extrabold text-xl md:text-3xl text-pink-100 drop-shadow-lg leading-tight">
-                    Spot Fake News & Survive Jumpscares!
+                    Spot Fake News & Master Digital Defense!
                 </h1>
                 <p class="font-rounded text-sm md:text-base text-pink-200/90 max-w-xl mx-auto font-medium">
-                    Enter your agent codename, pick your custom sakura avatar, and master digital verification!
+                    Establish your undercover profile, gear up your avatar, and master digital verification!
                 </p>
             </div>
 
@@ -326,10 +326,6 @@
                     Question text will appear here...
                 </h2>
 
-                <div id="question-image-box" class="hidden rounded-xl border border-pink-400/30 max-h-60 overflow-hidden bg-slate-950/60 flex items-center justify-center">
-                    <img id="question-img" src="" alt="Case Context" class="max-h-56 object-contain">
-                </div>
-
                 <div id="options-container" class="grid grid-cols-1 gap-3 pt-2"></div>
             </div>
 
@@ -391,19 +387,6 @@
 
     </main>
 
-    <div id="jumpscare-overlay" class="fixed inset-0 z-50 hidden select-none bg-black overflow-hidden flex flex-col justify-end">
-        <img id="jumpscare-img-element" src="" alt="Jumpscare Breach" class="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none">
-        <div class="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
-        <div class="relative z-20 w-full p-4 flex justify-end">
-            <button onclick="closeJumpscareOverlay()" class="bg-black/80 hover:bg-black text-pink-300 hover:text-white font-bold text-xs px-4 py-2 rounded-xl backdrop-blur-md border border-pink-500/30 shadow-xl transition-all flex items-center gap-2">
-                <span>PROCEED (進む)</span>
-                <i class="fa-solid fa-arrow-right text-[10px]"></i>
-            </button>
-        </div>
-    </div>
-
-    <audio id="jumpscare-audio-player" class="hidden"></audio>
-
     <div id="leaderboard-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
         <div class="aqua-glass w-full max-w-xl p-6 space-y-4 max-h-[90vh] flex flex-col border-pink-500/30">
             <div class="flex justify-between items-center border-b border-pink-400/20 pb-3">
@@ -432,7 +415,7 @@
             <div class="flex justify-between items-center border-b border-pink-400/20 pb-3">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-sliders text-pink-300 text-xl"></i>
-                    <h3 class="font-bold text-sm text-pink-200">CUSTOM QUESTION & JUMPSCARE EDITOR</h3>
+                    <h3 class="font-bold text-sm text-pink-200">CUSTOM QUESTION EDITOR</h3>
                 </div>
                 <button onclick="closeEditorModal()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-3 py-1 rounded-full font-bold">X</button>
             </div>
@@ -522,7 +505,6 @@
                 id: 1,
                 category: "WhatsApp Viral Rumors",
                 question: "A WhatsApp voice message warns that major national highway bridges will be closed indefinitely due to shifting ocean currents. Is this verified?",
-                image: null,
                 options: [
                     "TRUE: Forward it to your family immediately!",
                     "FALSE: Official marine and road advisories are always published by authorities first.",
@@ -530,15 +512,12 @@
                     "FALSE: Bridges never experience closures."
                 ],
                 correctIndex: 1,
-                explanation: "Unverified voice notes on social media often spread unwarranted panic. Always check official government announcements.",
-                jumpscareImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop",
-                customAudioUrl: null
+                explanation: "Unverified voice notes on social media often spread unwarranted panic. Always check official government announcements."
             },
             {
                 id: 2,
                 category: "Banking Phishing Scams",
                 question: "You receive an SMS link claiming your bank account requires emergency biometric re-verification. What should you do?",
-                image: null,
                 options: [
                     "Click the link and type your banking credentials instantly.",
                     "DO NOT click! Banks never request biometric or password verification via unverified SMS links.",
@@ -546,15 +525,12 @@
                     "Call the random number listed in the text message."
                 ],
                 correctIndex: 1,
-                explanation: "Phishing links mimic trusted financial institutions. Always use official banking mobile apps or typed official web portals.",
-                jumpscareImage: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=1600&auto=format&fit=crop",
-                customAudioUrl: null
+                explanation: "Phishing links mimic trusted financial institutions. Always use official banking mobile apps or typed official web portals."
             },
             {
                 id: 3,
                 category: "Weather & Meteorology",
                 question: "A social media post claims a sudden severe tsunami warning is active for coastal waters. How do you verify this safely?",
-                image: null,
                 options: [
                     "Panic and evacuate immediately without checking.",
                     "Check the official Meteorological Department weather app or verified emergency broadcasts.",
@@ -562,15 +538,12 @@
                     "Ignore it and go swimming."
                 ],
                 correctIndex: 1,
-                explanation: "Official government weather bureaus are the authority on severe weather. Always verify natural disaster notices through official channels.",
-                jumpscareImage: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=1600&auto=format&fit=crop",
-                customAudioUrl: null
+                explanation: "Official government weather bureaus are the authority on severe weather. Always verify natural disaster notices through official channels."
             },
             {
                 id: 4,
                 category: "Public Holiday Verification",
                 question: "A glossy graphic poster circulates on Instagram announcing an unexpected nationwide holiday tomorrow. What is the correct protocol?",
-                image: null,
                 options: [
                     "Assume it's true and cancel your classes.",
                     "Cross-check with the Prime Minister's Office or official state news broadcasts.",
@@ -578,9 +551,7 @@
                     "Call emergency services directly to confirm."
                 ],
                 correctIndex: 1,
-                explanation: "Official public holidays are formally declared and broadcasted through official government channels.",
-                jumpscareImage: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop",
-                customAudioUrl: null
+                explanation: "Official public holidays are formally declared and broadcasted through official government channels."
             }
         ];
 
@@ -640,11 +611,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             initBubbles();
             renderAvatarGrid();
-            initSampleLeaderboardIfEmpty();
             loadQuestionsFromDatabase();
         });
 
-        // --- Firebase Database Synchronization for Questions ---
         async function loadQuestionsFromDatabase() {
             if (!window.firebaseDB) return;
             try {
@@ -808,15 +777,6 @@
             document.getElementById('question-category-tag').textContent = `CATEGORY: ${q.category.toUpperCase()}`;
             document.getElementById('question-text-heading').textContent = q.question;
 
-            const imgBox = document.getElementById('question-image-box');
-            const imgEl = document.getElementById('question-img');
-            if (q.image) {
-                imgEl.src = q.image;
-                imgBox.classList.remove('hidden');
-            } else {
-                imgBox.classList.add('hidden');
-            }
-
             const optsContainer = document.getElementById('options-container');
             optsContainer.innerHTML = '';
 
@@ -866,6 +826,7 @@
 
                 showExplanationWindow(true, q.explanation);
             } else {
+                playAquaSound('breach');
                 streak = 0;
                 document.getElementById('hud-streak').textContent = "0x";
 
@@ -873,35 +834,8 @@
                 document.getElementById('hud-avatar-status').textContent = "STATUS: BREACHED (警告)!";
                 document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-red-950/60 text-red-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-red-500/40";
 
-                triggerJumpscareOverlay(q.jumpscareImage, q.customAudioUrl);
                 showExplanationWindow(false, q.explanation);
             }
-        }
-
-        function triggerJumpscareOverlay(imgUrl, customAudioUrl) {
-            const overlay = document.getElementById('jumpscare-overlay');
-            const scareImg = document.getElementById('jumpscare-img-element');
-            const player = document.getElementById('jumpscare-audio-player');
-
-            scareImg.src = imgUrl || "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=1600&auto=format&fit=crop";
-
-            if (customAudioUrl) {
-                player.src = customAudioUrl;
-                player.play().catch(e => console.log("Custom audio playback failed:", e));
-            } else {
-                playAquaSound('breach');
-            }
-
-            overlay.classList.remove('hidden');
-        }
-
-        function closeJumpscareOverlay() {
-            playAquaSound('click');
-            const player = document.getElementById('jumpscare-audio-player');
-            player.pause();
-            player.currentTime = 0;
-
-            document.getElementById('jumpscare-overlay').classList.add('hidden');
         }
 
         function showExplanationWindow(isCorrect, text) {
@@ -971,22 +905,22 @@
             });
         }
 
-        function saveScoreToLeaderboard(entry) {
-            let scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
-            scores.push(entry);
-            scores.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
-            scores = scores.slice(0, 20);
-            localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify(scores));
-        }
+        async function saveScoreToLeaderboard(entry) {
+            if (!window.firebaseDB) {
+                let scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+                scores.push(entry);
+                scores.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
+                scores = scores.slice(0, 20);
+                localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify(scores));
+                return;
+            }
 
-        function initSampleLeaderboardIfEmpty() {
-            const existing = localStorage.getItem('brunei_truthguard_sakura_leaderboard');
-            if (existing === null) {
-                localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify([
-                    { agentName: "Agent: Zaim", avatarIndex: 0, score: 850, accuracy: 100, timeSeconds: 24, date: "05/10/2026" },
-                    { agentName: "Agent: Fatima", avatarIndex: 1, score: 700, accuracy: 75, timeSeconds: 31, date: "05/10/2026" },
-                    { agentName: "Agent: Hazim", avatarIndex: 3, score: 550, accuracy: 50, timeSeconds: 40, date: "05/10/2026" }
-                ]));
+            try {
+                const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard');
+                const newScoreRef = window.firebaseDB.push(leaderboardRef);
+                await window.firebaseDB.set(newScoreRef, entry);
+            } catch (e) {
+                console.error("Error saving score to Firebase:", e);
             }
         }
 
@@ -1000,9 +934,32 @@
             document.getElementById('leaderboard-modal').classList.add('hidden');
         }
 
-        function renderLeaderboardList() {
+        async function renderLeaderboardList() {
             const container = document.getElementById('leaderboard-list');
-            const scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+            container.innerHTML = '<div class="font-rounded text-center p-4 text-pink-200">Loading scores...</div>';
+
+            let scores = [];
+
+            if (window.firebaseDB) {
+                try {
+                    const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard');
+                    const snapshot = await window.firebaseDB.get(leaderboardRef);
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        scores = Object.values(data);
+                    }
+                } catch (e) {
+                    console.error("Error fetching leaderboard from Firebase:", e);
+                }
+            }
+
+            if (scores.length === 0) {
+                scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+            }
+
+            scores.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
+            scores = scores.slice(0, 20);
+
             container.innerHTML = '';
 
             if (scores.length === 0) {
@@ -1017,7 +974,7 @@
 
                 const row = document.createElement('div');
                 row.className = `aqua-button p-3 flex items-center justify-between !bg-gradient-to-r ${
-                    index === 0 ? '!from-pink-950/80 !to-purple-950/80 border border-pink-300/40' : '!from-[#201538]/80 !to-[#2d1b4e]/80'
+                    index === 0 ? '!from-pink-950/85 !to-purple-950/85 border border-pink-300/40' : '!from-[#201538]/80 !to-[#2d1b4e]/80'
                 }`;
 
                 row.innerHTML = `
@@ -1040,8 +997,16 @@
             });
         }
 
-        function resetLeaderboardData() {
-            if (confirm("Reset all leaderboard local records?")) {
+        async function resetLeaderboardData() {
+            if (confirm("Reset all leaderboard records in Firebase?")) {
+                if (window.firebaseDB) {
+                    try {
+                        const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard');
+                        await window.firebaseDB.remove(leaderboardRef);
+                    } catch (e) {
+                        console.error("Error resetting Firebase leaderboard:", e);
+                    }
+                }
                 localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify([]));
                 renderLeaderboardList();
             }
@@ -1120,53 +1085,9 @@
                         <label class="text-[9px] block text-pink-200 font-bold">FACT EXPLANATION:</label>
                         <textarea id="ed-exp-${idx}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white h-12 border border-pink-500/30">${q.explanation}</textarea>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-1 border-t border-pink-500/20">
-                        <div>
-                            <label class="text-[9px] block text-pink-200 font-bold">JUMPSCARE IMAGE URL OR UPLOAD:</label>
-                            <div class="flex gap-1">
-                                <input type="text" id="ed-img-${idx}" value="${q.jumpscareImage || ''}" placeholder="https://..." class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30">
-                                <label class="aqua-button px-2.5 py-1 text-[10px] cursor-pointer flex items-center justify-center font-bold text-white whitespace-nowrap">
-                                    <i class="fa-solid fa-upload"></i>
-                                    <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, ${idx})">
-                                </label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="text-[9px] block text-pink-200 font-bold">BREACH ALERT AUDIO URL OR UPLOAD:</label>
-                            <div class="flex gap-1">
-                                <input type="text" id="ed-audio-${idx}" value="${q.customAudioUrl || ''}" placeholder="https://... (mp3/wav)" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30">
-                                <label class="aqua-button px-2.5 py-1 text-[10px] cursor-pointer flex items-center justify-center font-bold text-white whitespace-nowrap">
-                                    <i class="fa-solid fa-music"></i>
-                                    <input type="file" accept="audio/*" class="hidden" onchange="handleAudioUpload(event, ${idx})">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                 `;
                 list.appendChild(formCard);
             });
-        }
-
-        // --- FileReader Base64 Conversion for Uploads ---
-        function handleImageUpload(event, idx) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById(`ed-img-${idx}`).value = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleAudioUpload(event, idx) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById(`ed-audio-${idx}`).value = e.target.result;
-            };
-            reader.readAsDataURL(file);
         }
 
         function addNewQuestionForm() {
@@ -1174,7 +1095,6 @@
                 id: Date.now(),
                 category: "Custom Threat",
                 question: "New custom misinformation statement?",
-                image: null,
                 options: [
                     "Correct option explanation",
                     "Fake option A",
@@ -1182,9 +1102,7 @@
                     "Fake option C"
                 ],
                 correctIndex: 0,
-                explanation: "Explanation of verified truth.",
-                jumpscareImage: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=1600&auto=format&fit=crop",
-                customAudioUrl: null
+                explanation: "Explanation of verified truth."
             });
             renderEditorQuestionForms();
         }
@@ -1201,15 +1119,11 @@
                 const cat = document.getElementById(`ed-cat-${idx}`);
                 const corr = document.getElementById(`ed-corr-${idx}`);
                 const exp = document.getElementById(`ed-exp-${idx}`);
-                const img = document.getElementById(`ed-img-${idx}`);
-                const aud = document.getElementById(`ed-audio-${idx}`);
 
                 if (txt) q.question = txt.value;
                 if (cat) q.category = cat.value;
                 if (corr) q.correctIndex = parseInt(corr.value) - 1;
                 if (exp) q.explanation = exp.value;
-                if (img) q.jumpscareImage = img.value.trim() ? img.value.trim() : null;
-                if (aud) q.customAudioUrl = aud.value.trim() ? aud.value.trim() : null;
 
                 const opt0 = document.getElementById(`ed-opt-${idx}-0`);
                 const opt1 = document.getElementById(`ed-opt-${idx}-1`);
@@ -1220,7 +1134,6 @@
                 }
             });
 
-            // Sync updated questions array directly to Firebase Realtime Database
             saveQuestionsToDatabase();
 
             closeEditorModal();
