@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRUNEI DIGITAL DEFENSE - TRUTHGUARD (SAKURA AERO)</title>
+    <title>BRUNEI DIGITAL DEFENSE - TRUTHGUARD (ZEN EDITION V2)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts for Modern Clean Sans & Japanese Zen/Geometric Feel -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Quicksand:wght@500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts for Modern Clean Sans & Zen Aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Quicksand:wght@500;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -42,15 +42,14 @@
                     fontFamily: {
                         sans: ['"Montserrat"', 'sans-serif'],
                         rounded: ['"Quicksand"', 'sans-serif'],
-                        zen: ['"Zen Maru Gothic"', 'sans-serif']
+                        orbit: ['"Orbitron"', 'sans-serif']
                     },
                     colors: {
-                        sakuraBgStart: '#1a102f',
-                        sakuraBgMid: '#2d1b4e',
-                        sakuraBgEnd: '#4c1d47',
-                        sakuraPink: '#f472b6',
-                        sakuraLight: '#fbcfe8',
-                        sakuraAccent: '#fb7185'
+                        zenGreen: '#7c9a92',
+                        zenSage: '#a3b899',
+                        zenSand: '#f4f1ea',
+                        zenDark: '#2c3531',
+                        zenAccent: '#d4a373'
                     }
                 }
             }
@@ -59,20 +58,20 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #1a102f 0%, #2d1b4e 50%, #4c1d47 100%);
+            background: linear-gradient(135deg, #e6eee9 0%, #d4e2dc 40%, #c4d6ce 70%, #b2c9be 100%);
             background-attachment: fixed;
-            font-family: 'Zen Maru Gothic', 'Montserrat', sans-serif;
-            color: #ffffff;
+            font-family: 'Quicksand', 'Montserrat', sans-serif;
+            color: #2c3531;
             overflow-x: hidden;
         }
 
         .bubble {
             position: absolute;
-            bottom: -50px;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 241, 242, 0.95), rgba(244, 114, 182, 0.3));
+            bottom: -60px;
+            background: radial-gradient(circle at 30% 30%, rgba(163, 184, 153, 0.45), rgba(124, 154, 146, 0.15));
             border-radius: 50%;
             pointer-events: none;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6), 0 0 15px rgba(244, 114, 182, 0.35);
+            box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.7), 0 0 15px rgba(124, 154, 146, 0.2);
             animation: rise 9s infinite ease-in;
         }
 
@@ -83,55 +82,58 @@
             100% { transform: translateY(-110vh) scale(1.3) rotate(360deg); opacity: 0; }
         }
 
-        .aqua-glass {
-            background: rgba(30, 20, 50, 0.55);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(244, 114, 182, 0.18);
-            border-radius: 22px;
-            box-shadow: 0 20px 40px rgba(15, 10, 30, 0.6), inset 0 1px 4px rgba(255, 255, 255, 0.2);
+        .zen-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(163, 184, 153, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(44, 53, 49, 0.1), inset 0 1px 4px rgba(255, 255, 255, 0.8);
         }
 
-        .aqua-glass-inner {
-            background: rgba(20, 12, 35, 0.65);
-            border: 1px solid rgba(244, 114, 182, 0.14);
-            border-radius: 14px;
+        .zen-glass-inner {
+            background: rgba(244, 241, 234, 0.8);
+            border: 1px solid rgba(163, 184, 153, 0.4);
+            border-radius: 16px;
         }
 
-        .aqua-button {
-            background: linear-gradient(to bottom, #f472b6 0%, #db2777 100%);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            border-radius: 14px;
-            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.25), inset 0 2px 4px rgba(255, 255, 255, 0.45);
+        .zen-button {
+            background: linear-gradient(to bottom, #a3b899 0%, #7c9a92 100%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(124, 154, 146, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease;
+            color: #2c3531;
+            font-weight: 700;
         }
-        .aqua-button:hover {
-            background: linear-gradient(to bottom, #fbcfe8 0%, #be185d 100%);
+        .zen-button:hover {
+            background: linear-gradient(to bottom, #b4c9aa 0%, #8ca9a1 100%);
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(244, 114, 182, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.6);
-            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 20px rgba(124, 154, 146, 0.45), inset 0 1px 5px rgba(255, 255, 255, 0.8);
+            border-color: #ffffff;
+            color: #1a2320;
         }
-        .aqua-button:active {
+        .zen-button:active {
             transform: translateY(1px);
-            box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3);
+            box-shadow: 0 2px 8px rgba(124, 154, 146, 0.3);
         }
 
         .avatar-card {
-            background: rgba(20, 12, 35, 0.5);
-            border: 1.5px solid rgba(0, 0, 0, 0.75);
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.1);
+            background: rgba(244, 241, 234, 0.7);
+            border: 2px solid rgba(163, 184, 153, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(44, 53, 49, 0.08), inset 0 1px 3px rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease;
         }
         .avatar-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(0, 0, 0, 0.9);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7), inset 0 1px 4px rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            border-color: #7c9a92;
+            box-shadow: 0 8px 20px rgba(124, 154, 146, 0.35), inset 0 1px 4px rgba(255, 255, 255, 0.8);
         }
         .avatar-card.selected {
-            background: linear-gradient(to bottom, rgba(244, 114, 182, 0.3), rgba(126, 34, 206, 0.4));
-            border: 2px solid rgba(0, 0, 0, 0.95);
-            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.3), inset 0 0 8px rgba(244, 114, 182, 0.5);
+            background: linear-gradient(to bottom, rgba(163, 184, 153, 0.35), rgba(124, 154, 146, 0.35));
+            border: 3px solid #7c9a92;
+            box-shadow: 0 6px 20px rgba(124, 154, 146, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         @keyframes float-gentle {
@@ -146,77 +148,77 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #1a102f;
+            background: #d4e2dc;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(244, 114, 182, 0.6);
+            background: #7c9a92;
             border-radius: 4px;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-pink-400 selection:text-black relative">
+<body class="min-h-screen flex flex-col justify-between selection:bg-[#7c9a92] selection:text-white relative">
 
     <div id="bubble-container" class="fixed inset-0 overflow-hidden pointer-events-none z-0"></div>
 
-    <header class="aqua-glass m-4 p-4 z-30 sticky top-4 max-w-5xl mx-auto w-[calc(100%-2rem)]">
+    <header class="zen-glass m-4 p-4 z-30 sticky top-4 max-w-5xl mx-auto w-[calc(100%-2rem)]">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="goToStart()">
-                <div class="bg-gradient-to-r from-pink-400/80 to-rose-400/80 text-slate-950 font-extrabold px-3.5 py-1 rounded-full text-xs shadow-md tracking-wider border border-white/30">
-                    🌸 SAKURA AERO v1.29
+                <div class="bg-gradient-to-r from-[#7c9a92] to-[#a3b899] text-white font-black px-3.5 py-1 rounded-full text-xs shadow-md tracking-wider border border-white/60">
+                     🍃 ZEN EDITION V2.10
                 </div>
-                <span class="font-extrabold text-sm md:text-base tracking-wide text-white drop-shadow-md">
-                    TRUTHGUARD <span class="text-pink-300 font-light">COMMUNITY EDITION</span>
+                <span class="font-extrabold text-sm md:text-base tracking-wide text-[#2c3531] drop-shadow-sm">
+                    TRUTHGUARD <span class="text-[#7c9a92] font-light">BRUNEI</span>
                 </span>
             </div>
 
             <div class="flex items-center space-x-2">
-                <button onclick="openLeaderboardModal()" class="aqua-button text-white font-semibold text-xs px-4 py-2 flex items-center gap-2 !bg-gradient-to-bottom !from-purple-400 !to-pink-600">
-                    <i class="fa-solid fa-torii-gate text-pink-100"></i> LEADERBOARD
+                <button onclick="openLeaderboardModal()" class="zen-button font-semibold text-xs px-4 py-2 flex items-center gap-2 !bg-gradient-to-r !from-[#a3b899] !to-[#d4a373] !text-white">
+                    <i class="fa-solid fa-trophy text-amber-200"></i> LEADERBOARD
                 </button>
-                <button onclick="toggleAdminSidebar()" class="aqua-button text-white font-semibold text-xs px-4 py-2 flex items-center gap-2 !bg-gradient-to-bottom !from-pink-500 !to-rose-600">
-                    <i class="fa-solid fa-shield-halved text-pink-100"></i> ADMIN
+                <button onclick="toggleAdminSidebar()" class="zen-button font-semibold text-xs px-4 py-2 flex items-center gap-2 !bg-gradient-to-r !from-[#7c9a92] !to-[#2c3531] !text-white">
+                    <i class="fa-solid fa-shield-halved"></i> ADMIN
                 </button>
             </div>
         </div>
     </header>
 
-    <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 z-40 hidden bg-slate-950/70 backdrop-blur-sm transition-opacity"></div>
-    <div id="admin-sidebar" class="fixed top-0 right-0 z-50 h-full w-80 max-w-full aqua-glass border-l border-pink-500/30 transform translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between bg-[#1a102f]/95 shadow-2xl">
+    <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 z-40 hidden bg-[#2c3531]/40 backdrop-blur-sm transition-opacity"></div>
+    <div id="admin-sidebar" class="fixed top-0 right-0 z-50 h-full w-80 max-w-full zen-glass border-l border-[#7c9a92]/40 transform translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between bg-[#f4f1ea]/95 shadow-2xl">
         <div class="space-y-6">
-            <div class="flex items-center justify-between border-b border-pink-400/20 pb-3">
+            <div class="flex items-center justify-between border-b border-[#7c9a92]/30 pb-3">
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-lock text-pink-300"></i>
-                    <h3 class="font-bold text-xs uppercase tracking-wider text-pink-200">RESTRICTED ADMIN PANEL</h3>
+                    <i class="fa-solid fa-lock text-[#7c9a92]"></i>
+                    <h3 class="font-bold text-xs uppercase tracking-wider text-[#2c3531]">RESTRICTED ADMIN PANEL</h3>
                 </div>
-                <button onclick="toggleAdminSidebar()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-2.5 py-1 rounded-full font-bold">X</button>
+                <button onclick="toggleAdminSidebar()" class="text-xs bg-[#7c9a92]/20 text-[#2c3531] border border-[#7c9a92]/40 px-2.5 py-1 rounded-full font-bold">X</button>
             </div>
 
             <div id="admin-auth-section" class="space-y-3">
-                <p class="font-rounded text-xs text-pink-200">Enter access password to unlock administrative controls:</p>
-                <div class="flex items-center aqua-glass-inner p-2.5">
+                <p class="font-rounded text-xs text-[#2c3531]/80">Enter access password to unlock administrative controls:</p>
+                <div class="flex items-center zen-glass-inner p-2.5">
                     <input type="password" id="admin-password-input" placeholder="Password..." 
-                        class="font-bold text-xs text-white bg-transparent w-full focus:outline-none">
+                        class="font-bold text-xs text-[#2c3531] bg-transparent w-full focus:outline-none">
                 </div>
-                <button onclick="verifyAdminPassword()" class="aqua-button text-white font-bold text-xs w-full py-2.5 !bg-gradient-to-r !from-pink-500 !to-rose-600">
+                <button onclick="verifyAdminPassword()" class="zen-button font-bold text-xs w-full py-2.5 !bg-gradient-to-r !from-[#7c9a92] !to-[#a3b899] !text-white">
                     AUTHENTICATE
                 </button>
-                <p id="admin-auth-error" class="text-[10px] text-rose-400 font-bold hidden text-center">Invalid password!</p>
+                <p id="admin-auth-error" class="text-[10px] text-rose-700 font-bold hidden text-center">Invalid password!</p>
             </div>
 
             <div id="admin-controls-section" class="space-y-3 hidden">
-                <div class="bg-emerald-950/40 border border-emerald-500/30 p-2 rounded-xl text-center text-[11px] text-emerald-300 font-bold">
+                <div class="bg-emerald-900/10 border border-emerald-600/40 p-2 rounded-xl text-center text-[11px] text-emerald-800 font-bold">
                     ✓ Admin Access Granted
                 </div>
-                <button onclick="openEditorModalFromSidebar()" class="aqua-button text-white font-semibold text-xs w-full py-3 flex items-center justify-center gap-2 !bg-gradient-to-bottom !from-purple-400 !to-pink-600">
-                    <i class="fa-solid fa-sliders text-pink-100"></i> EDIT QUESTIONS
+                <button onclick="openEditorModalFromSidebar()" class="zen-button font-semibold text-xs w-full py-3 flex items-center justify-center gap-2 !bg-gradient-to-r !from-[#7c9a92] !to-[#a3b899] !text-white">
+                    <i class="fa-solid fa-sliders text-white"></i> EDIT QUESTIONS
                 </button>
-                <button onclick="lockAdminSession()" class="text-[10px] text-pink-300 hover:text-white underline w-full text-center pt-2">
+                <button onclick="lockAdminSession()" class="text-[10px] text-[#2c3531]/70 hover:text-[#2c3531] underline w-full text-center pt-2">
                     Lock Admin Session
                 </button>
             </div>
         </div>
 
-        <div class="text-[10px] text-center text-pink-300/60 font-semibold border-t border-pink-400/10 pt-3">
+        <div class="text-[10px] text-center text-[#2c3531]/60 font-semibold border-t border-[#7c9a92]/20 pt-3">
             SECURE ACCESS PORTAL
         </div>
     </div>
@@ -224,117 +226,119 @@
     <main class="max-w-3xl mx-auto w-full px-4 py-4 flex-grow flex flex-col justify-center z-20">
 
         <div id="start-screen" class="space-y-6">
-            <div class="aqua-glass p-8 text-center space-y-4 relative overflow-hidden border-pink-400/25">
-                <div class="absolute -right-12 -top-12 w-36 h-36 bg-pink-500/15 rounded-full blur-2xl pointer-events-none"></div>
-                <div class="inline-block text-[11px] font-bold text-pink-300 tracking-widest uppercase bg-pink-500/10 px-3 py-1 rounded-full border border-pink-400/20">
-                    〜 真実のガード 〜 Misinformation Truth Defense
+            <div class="zen-glass p-8 text-center space-y-4 relative overflow-hidden border-[#7c9a92]/40">
+                <div class="absolute -right-12 -top-12 w-36 h-36 bg-[#a3b899]/30 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -left-12 -bottom-12 w-36 h-36 bg-[#7c9a92]/30 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="inline-block text-[11px] font-black text-[#2c3531] tracking-widest uppercase bg-[#7c9a92]/20 px-3 py-1 rounded-full border border-[#7c9a92]/40 shadow-sm">
+                    ✨ 嘘ゼロ宣言 〜 Spot Fake News & Master Digital Defense!
                 </div>
-                <h1 class="font-extrabold text-xl md:text-3xl text-pink-100 drop-shadow-lg leading-tight">
-                    Spot Fake News & Master Digital Defense!
+                <h1 class="font-extrabold text-xl md:text-3xl text-[#2c3531] drop-shadow-sm leading-tight">
+                    Level Up Your Digital Defense & Beat the Scams!
                 </h1>
-                <p class="font-rounded text-sm md:text-base text-pink-200/90 max-w-xl mx-auto font-medium">
-                    Type your agent codename, pick your custom sakura avatar, and master digital verification!
+                <p class="font-rounded text-sm md:text-base text-[#2c3531]/90 max-w-xl mx-auto font-medium">
+                    Type your agent codename, pick your detailed Japanese zen avatar, and master fact-checking!
                 </p>
             </div>
 
-            <div class="aqua-glass p-6 space-y-4">
+            <div class="zen-glass p-6 space-y-4">
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-user-ninja text-pink-300 text-lg"></i>
-                    <h2 class="font-bold text-xs uppercase tracking-wider text-pink-200">ENTER YOUR AGENT CODENAME
-
-                <div class="flex items-center aqua-glass-inner p-3 border border-pink-500/40">
-                    <span class="font-extrabold text-sm text-pink-300 select-none pr-1">Agent:&nbsp;</span>
-                    <input type="text" id="agent-name-input" value="" placeholder="Type your name here..." maxlength="15" 
-                        class="font-extrabold text-sm md:text-base text-white bg-transparent w-full focus:outline-none tracking-wider">
+                    <i class="fa-solid fa-user-ninja text-[#7c9a92] text-lg"></i>
+                    <h2 class="font-bold text-xs uppercase tracking-wider text-[#2c3531]">ENTER YOUR AGENT CODENAME</h2>
                 </div>
-                <p id="name-error-msg" class="text-[11px] text-rose-400 font-bold hidden">⚠️ Please type your agent codename to proceed into the verification programme.</p>
+
+                <div class="flex items-center zen-glass-inner p-3 border border-[#7c9a92]/40">
+                    <span class="font-extrabold text-sm text-[#7c9a92] select-none pr-1">Agent:&nbsp;</span>
+                    <input type="text" id="agent-name-input" value="" placeholder="Type your name here..." maxlength="15" 
+                        class="font-extrabold text-sm md:text-base text-[#2c3531] bg-transparent w-full focus:outline-none tracking-wider">
+                </div>
+                <p id="name-error-msg" class="text-[11px] text-amber-800 font-bold hidden">⚠️ Please type your agent codename to proceed into the verification programme.</p>
             </div>
 
-            <div class="aqua-glass p-6 space-y-4">
+            <div class="zen-glass p-6 space-y-4">
                 <div class="flex items-center justify-between">
-                    <h2 class="font-bold text-xs uppercase tracking-wider text-pink-200">
-                        <i class="fa-solid fa-fan mr-1"></i> SELECT YOUR AVATAR:
+                    <h2 class="font-bold text-xs uppercase tracking-wider text-[#2c3531]">
+                        <i class="fa-solid fa-seedling text-[#7c9a92] mr-1"></i> SELECT YOUR DETAILED AVATAR:
                     </h2>
-                    <span class="text-[10px] bg-pink-500/20 text-pink-200 border border-pink-400/25 px-2.5 py-1 rounded-full font-semibold">10 AVATARS READY</span>
+                    <span class="text-[10px] bg-[#7c9a92]/20 text-[#2c3531] border border-[#7c9a92]/40 px-2.5 py-1 rounded-full font-semibold">10 DETAILED AVATARS</span>
                 </div>
 
                 <div id="avatar-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3"></div>
 
-                <div id="selected-avatar-info" class="aqua-glass-inner p-3.5 text-center flex items-center justify-center gap-2 transition-all duration-300 border border-black/60 shadow-inner">
-                    <i class="fa-solid fa-circle-check text-pink-300 text-xs"></i>
-                    <span class="font-rounded text-xs md:text-sm text-pink-100 font-semibold">
-                        Selected Avatar: <strong id="selected-avatar-name-display" class="text-pink-300 font-extrabold">Sakura-chan</strong>
+                <div id="selected-avatar-info" class="zen-glass-inner p-3.5 text-center flex items-center justify-center gap-2 transition-all duration-300 border border-[#7c9a92]/50 shadow-inner">
+                    <i class="fa-solid fa-circle-check text-[#7c9a92] text-xs"></i>
+                    <span class="font-rounded text-xs md:text-sm text-[#2c3531] font-semibold">
+                        Selected Avatar: <strong id="selected-avatar-name-display" class="text-[#7c9a92] font-extrabold">Hwari</strong>
                     </span>
                 </div>
             </div>
 
             <div class="text-center pt-2">
-                <button onclick="startQuiz()" class="aqua-button text-white font-extrabold text-sm md:text-base w-full py-4 tracking-wide flex items-center justify-center gap-3 shadow-xl !bg-gradient-to-r !from-pink-500 !via-rose-500 !to-purple-500 hover:!from-pink-400 hover:!to-purple-400">
-                    <i class="fa-solid fa-water animate-spin"></i>
-                    <span>INITIATE VERIFICATION PROGRAMME (始める)</span>
+                <button onclick="startQuiz()" class="zen-button font-extrabold text-sm md:text-base w-full py-4 tracking-wide flex items-center justify-center gap-3 shadow-xl !bg-gradient-to-r !from-[#7c9a92] !via-[#a3b899] !to-[#d4a373] !text-white hover:opacity-95">
+                    <i class="fa-solid fa-bolt animate-bounce text-amber-200"></i>
+                    <span>START VERIFICATION MISSION (スタート)</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </div>
         </div>
 
         <div id="quiz-screen" class="hidden space-y-5">
-            <div class="aqua-glass p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="zen-glass p-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center space-x-3 w-full md:w-auto">
-                    <div id="active-hud-avatar" class="w-16 h-16 aqua-glass-inner p-1.5 flex-shrink-0 animate-float shadow-inner border border-black/50"></div>
+                    <div id="active-hud-avatar" class="w-16 h-16 zen-glass-inner p-1.5 flex-shrink-0 animate-float shadow-inner border border-[#7c9a92]/60"></div>
                     <div>
-                        <div id="hud-agent-codename" class="font-bold text-xs text-pink-200">Agent: Recipient</div>
-                        <div id="hud-avatar-status" class="inline-block mt-1 bg-purple-950/60 text-pink-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-pink-500/30">
-                            STATUS: SUBMERGED & READY
+                        <div id="hud-agent-codename" class="font-bold text-xs text-[#2c3531]/80">Agent: Recipient</div>
+                        <div id="hud-avatar-status" class="inline-block mt-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-[9px] px-2 py-0.5 rounded-full border border-emerald-300/50 shadow-sm">
+                            STATUS: READY FOR TRUTH
                         </div>
                     </div>
                 </div>
 
                 <div class="w-full md:w-auto flex flex-wrap items-center justify-between md:justify-end gap-2 font-bold text-xs">
-                    <div class="aqua-glass-inner px-3 py-1.5 text-pink-100">
-                        SCORE: <span id="hud-score" class="text-pink-300 font-extrabold">0</span>
+                    <div class="zen-glass-inner px-3 py-1.5 text-[#2c3531]">
+                        SCORE: <span id="hud-score" class="text-[#7c9a92] font-extrabold">0</span>
                     </div>
-                    <div class="aqua-glass-inner px-3 py-1.5 text-pink-100">
-                        STREAK: <span id="hud-streak" class="text-rose-300 font-extrabold">0x</span>
+                    <div class="zen-glass-inner px-3 py-1.5 text-[#2c3531]">
+                        STREAK: <span id="hud-streak" class="text-[#d4a373] font-extrabold">0x</span>
                     </div>
-                    <div class="aqua-glass-inner px-3 py-1.5 text-pink-100">
-                        TIME: <span id="hud-timer" class="text-amber-300 font-extrabold">0s</span>
+                    <div class="zen-glass-inner px-3 py-1.5 text-[#2c3531]">
+                        TIME: <span id="hud-timer" class="text-[#7c9a92] font-extrabold">0s</span>
                     </div>
                 </div>
             </div>
 
-            <div class="aqua-glass p-3">
-                <div class="flex justify-between font-semibold text-[10px] mb-1.5 text-pink-200">
+            <div class="zen-glass p-3">
+                <div class="flex justify-between font-semibold text-[10px] mb-1.5 text-[#2c3531]/80">
                     <span id="question-progress-text">QUESTION 1 / 4</span>
                     <span id="question-progress-percent">0%</span>
                 </div>
-                <div class="w-full bg-slate-950/70 rounded-full h-2.5 overflow-hidden p-0.5 border border-pink-500/20">
-                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-pink-400 via-rose-400 to-purple-400 h-full rounded-full w-0 transition-all duration-300 shadow-sm"></div>
+                <div class="w-full bg-[#d4e2dc] rounded-full h-2.5 overflow-hidden p-0.5 border border-[#7c9a92]/40">
+                    <div id="quiz-progress-bar" class="bg-gradient-to-r from-[#7c9a92] via-[#a3b899] to-[#d4a373] h-full rounded-full w-0 transition-all duration-300 shadow-sm"></div>
                 </div>
             </div>
 
-            <div class="aqua-glass p-6 md:p-8 space-y-5 relative">
+            <div class="zen-glass p-6 md:p-8 space-y-5 relative">
                 <div class="flex items-center justify-between">
-                    <span id="question-category-tag" class="bg-pink-500/20 text-pink-200 border border-pink-400/30 font-semibold text-[10px] px-3 py-1 rounded-full">
+                    <span id="question-category-tag" class="bg-[#7c9a92]/20 text-[#2c3531] border border-[#7c9a92]/50 font-bold text-[10px] px-3 py-1 rounded-full shadow-sm">
                         CATEGORY: SCAM ALERT
                     </span>
-                    <span class="text-[10px] text-amber-300 font-bold flex items-center gap-1">
-                        <i class="fa-solid fa-shield-cat"></i> VERIFY BEFORE SHARING
+                    <span class="text-[10px] text-[#2c3531] font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-shield-heart text-[#7c9a92]"></i> VERIFY BEFORE SHARING
                     </span>
                 </div>
 
-                <h2 id="question-text-heading" class="font-zen font-bold text-base md:text-xl text-white leading-relaxed">
+                <h2 id="question-text-heading" class="font-extrabold text-base md:text-xl text-[#2c3531] leading-relaxed">
                     Question text will appear here...
                 </h2>
 
                 <div id="options-container" class="grid grid-cols-1 gap-3 pt-2"></div>
             </div>
 
-            <div id="explanation-window" class="hidden aqua-glass p-5 space-y-3 border-pink-400/35">
+            <div id="explanation-window" class="hidden zen-glass p-5 space-y-3 border-[#7c9a92]/60">
                 <div id="explanation-title" class="font-bold text-xs flex items-center gap-2"></div>
-                <p id="explanation-body-text" class="font-rounded font-medium text-sm text-pink-50">
+                <p id="explanation-body-text" class="font-rounded font-medium text-sm text-[#2c3531]/90">
                     Explanation text...
                 </p>
-                <button id="next-question-btn" onclick="nextQuestion()" class="aqua-button text-white font-extrabold text-xs w-full py-3 flex items-center justify-center gap-2 shadow-lg !bg-gradient-to-r !from-pink-500 !to-rose-700">
+                <button id="next-question-btn" onclick="nextQuestion()" class="zen-button font-extrabold text-xs w-full py-3 flex items-center justify-center gap-2 shadow-lg !bg-gradient-to-r !from-[#7c9a92] !to-[#a3b899] !text-white">
                     <span>PROCEED DEEPER (次へ)</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
@@ -342,44 +346,44 @@
         </div>
 
         <div id="result-screen" class="hidden space-y-6 text-center">
-            <div class="aqua-glass p-8 space-y-5">
-                <div id="result-avatar-container" class="w-24 h-24 mx-auto aqua-glass-inner p-2 animate-float shadow-xl border border-black/50"></div>
+            <div class="zen-glass p-8 space-y-5">
+                <div id="result-avatar-container" class="w-24 h-24 mx-auto zen-glass-inner p-2 animate-float shadow-xl border border-[#7c9a92]/70"></div>
 
                 <div>
-                    <h2 class="font-extrabold text-lg md:text-2xl text-pink-200">
+                    <h2 class="font-extrabold text-lg md:text-2xl text-[#2c3531] drop-shadow-sm">
                         MISSION REPORT 〜 任務完了 〜
                     </h2>
-                    <p id="result-agent-fullname" class="font-bold text-xs text-pink-300 mt-1">
+                    <p id="result-agent-fullname" class="font-bold text-xs text-[#7c9a92] mt-1">
                         Agent: Recipient
                     </p>
                 </div>
 
                 <div class="grid grid-cols-3 gap-3 max-w-md mx-auto font-bold text-xs">
-                    <div class="aqua-glass-inner p-3">
-                        <div class="text-[9px] text-pink-300">SCORE</div>
-                        <div id="res-score" class="text-white text-base md:text-lg font-extrabold">0</div>
+                    <div class="zen-glass-inner p-3">
+                        <div class="text-[9px] text-[#2c3531]/70">SCORE</div>
+                        <div id="res-score" class="text-[#7c9a92] text-base md:text-lg font-extrabold">0</div>
                     </div>
-                    <div class="aqua-glass-inner p-3">
-                        <div class="text-[9px] text-pink-300">ACCURACY</div>
-                        <div id="res-accuracy" class="text-pink-300 text-base md:text-lg font-extrabold">0%</div>
+                    <div class="zen-glass-inner p-3">
+                        <div class="text-[9px] text-[#2c3531]/70">ACCURACY</div>
+                        <div id="res-accuracy" class="text-[#a3b899] text-base md:text-lg font-extrabold">0%</div>
                     </div>
-                    <div class="aqua-glass-inner p-3">
-                        <div class="text-[9px] text-pink-300">TIME</div>
-                        <div id="res-time" class="text-amber-300 text-base md:text-lg font-extrabold">0s</div>
+                    <div class="zen-glass-inner p-3">
+                        <div class="text-[9px] text-[#2c3531]/70">TIME</div>
+                        <div id="res-time" class="text-[#d4a373] text-base md:text-lg font-extrabold">0s</div>
                     </div>
                 </div>
 
-                <div id="rank-badge-box" class="aqua-glass-inner p-4 font-zen space-y-1 max-w-md mx-auto border-pink-500/30">
-                    <div id="rank-badge-title" class="font-extrabold text-sm text-pink-200">SAKURA OCEAN GUARDIAN</div>
-                    <p id="rank-badge-desc" class="text-xs text-pink-100">You successfully kept the digital waters crystal clear!</p>
+                <div id="rank-badge-box" class="zen-glass-inner p-4 space-y-1 max-w-md mx-auto border-[#7c9a92]/40">
+                    <div id="rank-badge-title" class="font-extrabold text-sm text-[#7c9a92]">ZEN TRUTH MASTER</div>
+                    <p id="rank-badge-desc" class="text-xs text-[#2c3531]/80">You successfully defended the digital feed from fake news and scams!</p>
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
-                    <button onclick="goToStart()" class="aqua-button text-white font-bold text-xs px-6 py-3">
-                        <i class="fa-solid fa-rotate-left mr-1"></i> DIVE AGAIN (もう一度)
+                    <button onclick="goToStart()" class="zen-button font-bold text-xs px-6 py-3">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> PLAY AGAIN (もう一度)
                     </button>
-                    <button onclick="openLeaderboardModal()" class="aqua-button text-white font-bold text-xs px-6 py-3 !bg-gradient-to-bottom !from-pink-500 !to-purple-700">
-                        <i class="fa-solid fa-torii-gate mr-1"></i> LEADERBOARD
+                    <button onclick="openLeaderboardModal()" class="zen-button font-bold text-xs px-6 py-3 !bg-gradient-to-r !from-[#a3b899] !to-[#d4a373] !text-white">
+                        <i class="fa-solid fa-trophy mr-1 text-amber-200"></i> LEADERBOARD
                     </button>
                 </div>
             </div>
@@ -387,48 +391,48 @@
 
     </main>
 
-    <div id="leaderboard-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-        <div class="aqua-glass w-full max-w-xl p-6 space-y-4 max-h-[90vh] flex flex-col border-pink-500/30">
-            <div class="flex justify-between items-center border-b border-pink-400/20 pb-3">
+    <div id="leaderboard-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-[#2c3531]/70 backdrop-blur-md">
+        <div class="zen-glass w-full max-w-xl p-6 space-y-4 max-h-[90vh] flex flex-col border-[#7c9a92]/50">
+            <div class="flex justify-between items-center border-b border-[#7c9a92]/30 pb-3">
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-torii-gate text-pink-300 text-xl"></i>
-                    <h3 class="font-bold text-sm text-pink-200">AGENT RANKINGS 〜 ランキング 〜</h3>
+                    <i class="fa-solid fa-trophy text-[#d4a373] text-xl"></i>
+                    <h3 class="font-bold text-sm text-[#2c3531]">AGENT RANKINGS 〜 ランキング 〜</h3>
                 </div>
-                <button onclick="closeLeaderboardModal()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-3 py-1 rounded-full font-bold">X</button>
+                <button onclick="closeLeaderboardModal()" class="text-xs bg-[#7c9a92]/20 text-[#2c3531] border border-[#7c9a92]/40 px-3 py-1 rounded-full font-bold">X</button>
             </div>
 
             <div id="leaderboard-list" class="flex-grow overflow-y-auto space-y-2.5 pr-1"></div>
 
-            <div class="flex justify-between items-center border-t border-pink-400/20 pt-3">
-                <button onclick="resetLeaderboardData()" class="text-[10px] bg-red-900/50 text-red-200 border border-red-500/40 px-3 py-2 rounded-xl font-bold">
+            <div class="flex justify-between items-center border-t border-[#7c9a92]/30 pt-3">
+                <button onclick="resetLeaderboardData()" class="text-[10px] bg-rose-950/20 text-rose-800 border border-rose-500/40 px-3 py-2 rounded-xl font-bold">
                     <i class="fa-solid fa-trash mr-1"></i> RESET SCORES
                 </button>
-                <button onclick="closeLeaderboardModal()" class="aqua-button text-white font-bold text-xs px-5 py-2">
+                <button onclick="closeLeaderboardModal()" class="zen-button font-bold text-xs px-5 py-2">
                     CLOSE
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="editor-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-        <div class="aqua-glass w-full max-w-2xl p-6 space-y-4 max-h-[90vh] flex flex-col bg-[#1a102f]/95 border-pink-500/30">
-            <div class="flex justify-between items-center border-b border-pink-400/20 pb-3">
+    <div id="editor-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-[#2c3531]/70 backdrop-blur-md">
+        <div class="zen-glass w-full max-w-2xl p-6 space-y-4 max-h-[90vh] flex flex-col bg-[#f4f1ea]/95 border-[#7c9a92]/50">
+            <div class="flex justify-between items-center border-b border-[#7c9a92]/30 pb-3">
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-sliders text-pink-300 text-xl"></i>
-                    <h3 class="font-bold text-sm text-pink-200">CUSTOM QUESTION EDITOR</h3>
+                    <i class="fa-solid fa-sliders text-[#7c9a92] text-xl"></i>
+                    <h3 class="font-bold text-sm text-[#2c3531]">CUSTOM QUESTION EDITOR</h3>
                 </div>
-                <button onclick="closeEditorModal()" class="text-xs bg-red-500/30 text-red-200 border border-red-400/50 px-3 py-1 rounded-full font-bold">X</button>
+                <button onclick="closeEditorModal()" class="text-xs bg-[#7c9a92]/20 text-[#2c3531] border border-[#7c9a92]/40 px-3 py-1 rounded-full font-bold">X</button>
             </div>
 
             <div id="editor-question-list" class="flex-grow overflow-y-auto space-y-4 pr-1"></div>
 
-            <div class="flex justify-between items-center border-t border-pink-400/20 pt-3">
-                <button onclick="addNewQuestionForm()" class="aqua-button text-white font-bold text-xs px-4 py-2 !bg-gradient-to-r !from-pink-500 !to-rose-600">
+            <div class="flex justify-between items-center border-t border-[#7c9a92]/30 pt-3">
+                <button onclick="addNewQuestionForm()" class="zen-button font-bold text-xs px-4 py-2 !bg-gradient-to-r !from-[#7c9a92] !to-[#a3b899] !text-white">
                     + ADD QUESTION
                 </button>
                 <div class="flex gap-2">
-                    <button onclick="closeEditorModal()" class="aqua-glass-inner text-white font-bold text-xs px-4 py-2">CANCEL</button>
-                    <button onclick="saveCustomQuestions()" class="aqua-button text-white font-bold text-xs px-5 py-2 !bg-gradient-to-r !from-purple-500 !to-pink-600">
+                    <button onclick="closeEditorModal()" class="zen-glass-inner text-[#2c3531] font-bold text-xs px-4 py-2">CANCEL</button>
+                    <button onclick="saveCustomQuestions()" class="zen-button font-bold text-xs px-5 py-2 !bg-gradient-to-r !from-[#a3b899] !to-[#d4a373] !text-white">
                         SAVE QUIZ
                     </button>
                 </div>
@@ -436,7 +440,7 @@
         </div>
     </div>
 
-    <footer class="aqua-glass m-4 p-3 text-pink-200 font-semibold text-[10px] text-center max-w-5xl mx-auto w-[calc(100%-2rem)] z-30">
+    <footer class="zen-glass m-4 p-3 text-[#2c3531]/80 font-semibold text-[10px] text-center max-w-5xl mx-auto w-[calc(100%-2rem)] z-30">
        DIGITAL YOUTH AMBASSADOR PROGRAM - TRUTHGUARD © 2026
     </footer>
 
@@ -447,11 +451,11 @@
             for (let i = 0; i < bubbleCount; i++) {
                 const bubble = document.createElement('div');
                 bubble.className = 'bubble';
-                const size = Math.floor(Math.random() * 26) + 10;
+                const size = Math.floor(Math.random() * 28) + 12;
                 bubble.style.width = `${size}px`;
                 bubble.style.height = `${size}px`;
                 bubble.style.left = `${Math.random() * 100}%`;
-                bubble.style.animationDuration = `${Math.random() * 7 + 5}s`;
+                bubble.style.animationDuration = `${Math.random() * 8 + 5}s`;
                 bubble.style.animationDelay = `${Math.random() * 5}s`;
                 container.appendChild(bubble);
             }
@@ -460,43 +464,43 @@
         const BRUNEI_AVATARS = [
             {
                 name: "Hwari",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#f472b6" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><path d="M 50 14 Q 58 24 50 34 Q 42 24 50 14 Z" fill="#ffe4e6"/><path d="M 28 26 Q 36 34 28 42 Q 20 34 28 26 Z" fill="#ffe4e6"/><path d="M 72 26 Q 80 34 72 42 Q 64 34 72 26 Z" fill="#ffe4e6"/><circle cx="35" cy="48" r="${mood==='scared'?7:4}" fill="#1a102f"/><circle cx="65" cy="48" r="${mood==='scared'?7:4}" fill="#1a102f"/><path d="M 38 ${mood==='happy'?70:(mood==='scared'?64:67)} Q 50 ${mood==='happy'?80:57} 62 ${mood==='scared'?64:67}" stroke="#1a102f" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M 30 28 Q 50 18 70 28" stroke="#fbcfe8" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(124,154,146,0.3)]"><circle cx="50" cy="50" r="44" fill="#7c9a92" stroke="#ffffff" stroke-width="3"/><circle cx="50" cy="50" r="34" fill="#a3b899" opacity="0.5"/><path d="M 50 10 Q 62 25 50 40 Q 38 25 50 10 Z" fill="#d4a373"/><path d="M 22 30 Q 35 42 22 54 Q 9 42 22 30 Z" fill="#f4f1ea"/><path d="M 78 30 Q 91 42 78 54 Q 65 42 78 30 Z" fill="#f4f1ea"/><circle cx="34" cy="48" r="${mood==='scared'?7:4}" fill="#2c3531"/><circle cx="66" cy="48" r="${mood==='scared'?7:4}" fill="#2c3531"/><circle cx="32" cy="46" r="1.5" fill="#ffffff"/><circle cx="64" cy="46" r="1.5" fill="#ffffff"/><path d="M 38 ${mood==='happy'?70:(mood==='scared'?64:67)} Q 50 ${mood==='happy'?82:57} 62 ${mood==='scared'?64:67}" stroke="#2c3531" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="50" cy="76" r="3.5" fill="#d4a373"/></svg>`
             },
             {
                 name: "Renn",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#9333ea" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><line x1="20" y1="50" x2="35" y2="50" stroke="#c084fc" stroke-width="3"/><line x1="65" y1="50" x2="80" y2="50" stroke="#c084fc" stroke-width="3"/><line x1="50" y1="20" x2="50" y2="32" stroke="#c084fc" stroke-width="3"/><circle cx="35" cy="46" r="5" fill="#38bdf8"/><circle cx="65" cy="46" r="5" fill="#38bdf8"/><path d="M 40 66 Q 50 ${mood==='happy'?76:61} 60 66" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/><polygon points="50,14 56,26 70,30 58,42 62,56 50,48 38,56 42,42 30,30 44,26" fill="#f472b6"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(163,184,153,0.3)]"><circle cx="50" cy="50" r="44" fill="#a3b899" stroke="#ffffff" stroke-width="3"/><rect x="20" y="20" width="60" height="60" rx="16" fill="#7c9a92" opacity="0.7"/><line x1="16" y1="50" x2="34" y2="50" stroke="#f4f1ea" stroke-width="4"/><line x1="66" y1="50" x2="84" y2="50" stroke="#f4f1ea" stroke-width="4"/><circle cx="34" cy="46" r="5" fill="#2c3531"/><circle cx="66" cy="46" r="5" fill="#2c3531"/><circle cx="32" cy="44" r="1.5" fill="#ffffff"/><circle cx="64" cy="44" r="1.5" fill="#ffffff"/><path d="M 40 66 Q 50 ${mood==='happy'?78:60} 60 66" stroke="#2c3531" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="50" cy="22" r="5" fill="#d4a373" stroke="#ffffff" stroke-width="1.5"/></svg>`
             },
             {
                 name: "Aerona",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#0284c7" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><path d="M 22 36 Q 50 26 78 36" fill="none" stroke="#bae6fd" stroke-width="5" stroke-linecap="round"/><rect x="26" y="40" width="18" height="14" rx="5" fill="#0f172a" stroke="#bae6fd" stroke-width="2"/><rect x="56" y="40" width="18" height="14" rx="5" fill="#0f172a" stroke="#bae6fd" stroke-width="2"/><circle cx="35" cy="47" r="${mood==='scared'?6:3}" fill="#38bdf8"/><circle cx="65" cy="47" r="${mood==='scared'?6:3}" fill="#38bdf8"/><path d="M 42 66 Q 50 ${mood==='happy'?74:60} 58 66" stroke="#bae6fd" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(124,154,146,0.3)]"><circle cx="50" cy="50" r="44" fill="#7c9a92" stroke="#ffffff" stroke-width="3"/><path d="M 18 36 Q 50 20 82 36" fill="none" stroke="#f4f1ea" stroke-width="6" stroke-linecap="round"/><rect x="25" y="40" width="18" height="14" rx="5" fill="#2c3531"/><rect x="57" y="40" width="18" height="14" rx="5" fill="#2c3531"/><circle cx="34" cy="47" r="${mood==='scared'?6:3}" fill="#d4a373"/><circle cx="66" cy="47" r="${mood==='scared'?6:3}" fill="#d4a373"/><path d="M 42" fill="none"/><path d="M 42 66 Q 50 ${mood==='happy'?76:60} 58 66" stroke="#ffffff" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="50" cy="22" r="3" fill="#d4a373"/></svg>`
             },
             {
                 name: "Kaetsu",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#d946ef" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><polygon points="22,34 32,10 42,32" fill="#f472b6" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><polygon points="78,34 68,10 58,32" fill="#f472b6" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><ellipse cx="50" cy="48" rx="26" ry="12" fill="#1e1b4b" opacity="0.9"/><line x1="28" y1="48" x2="72" y2="48" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4,2"/><circle cx="36" cy="48" r="${mood==='scared'?5:2}" fill="#38bdf8"/><circle cx="64" cy="48" r="${mood==='scared'?5:2}" fill="#38bdf8"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(212,163,115,0.3)]"><circle cx="50" cy="50" r="44" fill="#d4a373" stroke="#ffffff" stroke-width="3"/><polygon points="20,32 32,8 44,32" fill="#7c9a92" stroke="#ffffff" stroke-width="2"/><polygon points="80,32 68,8 56,32" fill="#7c9a92" stroke="#ffffff" stroke-width="2"/><ellipse cx="50" cy="48" rx="28" ry="12" fill="#2c3531"/><circle cx="36" cy="48" r="${mood==='scared'?5:2.5}" fill="#f4f1ea"/><circle cx="64" cy="48" r="${mood==='scared'?5:2.5}" fill="#f4f1ea"/><path d="M 44 68 Q 50 74 56 68" stroke="#2c3531" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`
             },
             {
                 name: "Haera",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#7e22ce" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><circle cx="50" cy="22" r="8" fill="#f472b6"/><circle cx="32" cy="28" r="7" fill="#f472b6"/><circle cx="68" cy="28" r="7" fill="#f472b6"/><circle cx="38" cy="48" r="4" fill="#fbcfe8"/><circle cx="62" cy="48" r="4" fill="#fbcfe8"/><path d="M 40 66 Q 50 ${mood==='happy'?74:58} 60 66" stroke="#fbcfe8" stroke-width="3" fill="none"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(163,184,153,0.3)]"><circle cx="50" cy="50" r="44" fill="#a3b899" stroke="#ffffff" stroke-width="3"/><circle cx="50" cy="20" r="9" fill="#7c9a92" stroke="#ffffff" stroke-width="2"/><circle cx="30" cy="26" r="7" fill="#d4a373" stroke="#ffffff" stroke-width="2"/><circle cx="70" cy="26" r="7" fill="#d4a373" stroke="#ffffff" stroke-width="2"/><circle cx="37" cy="48" r="4.5" fill="#2c3531"/><circle cx="63" cy="48" r="4.5" fill="#2c3531"/><circle cx="35" cy="46" r="1.5" fill="#ffffff"/><circle cx="61" cy="46" r="1.5" fill="#ffffff"/><path d="M 40 66 Q 50 ${mood==='happy'?76:58} 60 66" stroke="#2c3531" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>`
             },
             {
                 name: "Kanna",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><circle cx="50" cy="50" r="44" fill="#fb7185" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><polygon points="35,26 38,36 48,38 38,40 35,50 32,40 22,38 32,36" fill="#fef08a"/><polygon points="65,26 68,36 78,38 68,40 65,50 62,40 52,38 62,36" fill="#fef08a"/><circle cx="35" cy="46" r="${mood==='scared'?7:4}" fill="#1e1b4b"/><circle cx="65" cy="46" r="${mood==='scared'?7:4}" fill="#1e1b4b"/><rect x="42" y="65" width="16" height="6" rx="2" fill="#ffffff"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(124,154,146,0.3)]"><circle cx="50" cy="50" r="44" fill="#7c9a92" stroke="#ffffff" stroke-width="3"/><polygon points="35,24 39,36 51,38 39,40 35,52 31,40 19,38 31,36" fill="#f4f1ea"/><polygon points="65,24 69,36 81,38 69,40 65,52 61,40 49,38 61,36" fill="#f4f1ea"/><circle cx="35" cy="46" r="${mood==='scared'?7:4}" fill="#2c3531"/><circle cx="65" cy="46" r="${mood==='scared'?7:4}" fill="#2c3531"/><circle cx="33" cy="44" r="1.5" fill="#ffffff"/><circle cx="63" cy="44" r="1.5" fill="#ffffff"/><rect x="41" y="66" width="18" height="6" rx="3" fill="#d4a373"/></svg>`
             },
             {
                 name: "Hwarang",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><polygon points="15,22 36,36 15,50" fill="#f43f5e" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><polygon points="85,22 64,36 85,50" fill="#f43f5e" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><circle cx="50" cy="52" r="38" fill="#0f172a" stroke="#f43f5e" stroke-width="2.5"/><path d="M 22 42 L 78 42" stroke="#f43f5e" stroke-width="4"/><circle cx="36" cy="46" r="${mood==='scared'?6:3}" fill="#fbcfe8"/><circle cx="64" cy="46" r="${mood==='scared'?6:3}" fill="#fbcfe8"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(212,163,115,0.3)]"><polygon points="12,20 36,36 12,52" fill="#d4a373" stroke="#ffffff" stroke-width="2"/><polygon points="88,20 64,36 88,52" fill="#d4a373" stroke="#ffffff" stroke-width="2"/><circle cx="50" cy="52" r="38" fill="#a3b899" stroke="#ffffff" stroke-width="3"/><path d="M 22 42 L 78 42" stroke="#2c3531" stroke-width="3.5"/><circle cx="36" cy="46" r="${mood==='scared'?6:3.5}" fill="#ffffff"/><circle cx="64" cy="46" r="${mood==='scared'?6:3.5}" fill="#ffffff"/><circle cx="36" cy="46" r="1.5" fill="#2c3531"/><circle cx="64" cy="46" r="1.5" fill="#2c3531"/></svg>`
             },
             {
                 name: "Auralis",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><path d="M 50 6 L 61 36 L 94 48 L 61 60 L 50 94 L 39 60 L 6 48 L 39 36 Z" fill="#f59e0b" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><circle cx="40" cy="48" r="4" fill="#ffffff"/><circle cx="60" cy="48" r="4" fill="#ffffff"/><path d="M 42 66 Q 50 ${mood==='happy'?74:58} 58 66" stroke="#ffffff" stroke-width="3" fill="none"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(124,154,146,0.3)]"><circle cx="50" cy="50" r="42" fill="#7c9a92" stroke="#ffffff" stroke-width="3"/><ellipse cx="50" cy="50" rx="42" ry="16" fill="none" stroke="#d4a373" stroke-width="4" transform="rotate(-25 50 50)"/><circle cx="50" cy="50" r="28" fill="#a3b899" opacity="0.6"/><circle cx="38" cy="46" r="${mood==='scared'?6:3.5}" fill="#2c3531"/><circle cx="62" cy="46" r="${mood==='scared'?6:3.5}" fill="#2c3531"/><circle cx="36" cy="44" r="1.5" fill="#ffffff"/><circle cx="60" cy="44" r="1.5" fill="#ffffff"/><path d="M 42 64 Q 50 ${mood==='happy'?74:58} 58 64" stroke="#2c3531" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="50" cy="22" r="3.5" fill="#d4a373"/></svg>`
             },
             {
                 name: "Akari",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><rect x="18" y="18" width="16" height="16" fill="#eab308" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><rect x="66" y="18" width="16" height="16" fill="#eab308" stroke="rgba(0,0,0,0.6)" stroke-width="2"/><circle cx="50" cy="55" r="38" fill="#ec4899" stroke="#eab308" stroke-width="2.5"/><rect x="30" y="42" width="12" height="12" fill="#ffffff"/><rect x="58" y="42" width="12" height="12" fill="#ffffff"/><circle cx="36" cy="48" r="${mood==='scared'?5:2}" fill="#1e1b4b"/><circle cx="64" cy="48" r="${mood==='scared'?5:2}" fill="#1e1b4b"/><rect x="42" y="66" width="16" height="6" fill="#ffffff"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(163,184,153,0.3)]"><rect x="16" y="16" width="18" height="18" fill="#d4a373" stroke="#ffffff" stroke-width="2"/><rect x="66" y="16" width="18" height="18" fill="#d4a373" stroke="#ffffff" stroke-width="2"/><circle cx="50" cy="55" r="38" fill="#a3b899" stroke="#ffffff" stroke-width="3"/><rect x="30" y="42" width="12" height="12" fill="#7c9a92" stroke="#ffffff" stroke-width="1.5"/><rect x="58" y="42" width="12" height="12" fill="#7c9a92" stroke="#ffffff" stroke-width="1.5"/><circle cx="36" cy="48" r="${mood==='scared'?5:2.5}" fill="#2c3531"/><circle cx="64" cy="48" r="${mood==='scared'?5:2.5}" fill="#2c3531"/><rect x="42" y="68" width="16" height="6" rx="3" fill="#ffffff"/></svg>`
             },
             {
                 name: "Mecha-Aero v2",
-                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow"><rect x="16" y="12" width="68" height="76" rx="10" fill="#334155" stroke="rgba(0,0,0,0.6)" stroke-width="2.5"/><rect x="24" y="20" width="52" height="32" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/><circle cx="40" cy="34" r="${mood==='scared'?5:3}" fill="#38bdf8"/><circle cx="60" cy="34" r="${mood==='scared'?5:3}" fill="#38bdf8"/><line x1="42" y1="44" x2="58" y2="44" stroke="#38bdf8" stroke-width="3"/><circle cx="50" cy="72" r="6" fill="#f43f5e" stroke="#38bdf8" stroke-width="2"/></svg>`
+                svg: (mood) => `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_8px_rgba(124,154,146,0.3)]"><rect x="14" y="10" width="72" height="80" rx="12" fill="#7c9a92" stroke="#ffffff" stroke-width="3"/><rect x="22" y="18" width="56" height="34" rx="8" fill="#2c3531" stroke="#d4a373" stroke-width="2.5"/><circle cx="38" cy="35" r="${mood==='scared'?6:3.5}" fill="#d4a373"/><circle cx="62" cy="35" r="${mood==='scared'?6:3.5}" fill="#d4a373"/><line x1="40" y1="45" x2="60" y2="45" stroke="#a3b899" stroke-width="3.5" stroke-linecap="round"/><circle cx="50" cy="74" r="7" fill="#a3b899" stroke="#ffffff" stroke-width="2"/></svg>`
             }
         ];
 
@@ -565,7 +569,7 @@
         let audioCtx = null;
         let isAdminAuthenticated = false;
 
-        function playAquaSound(type) {
+        function playZenSound(type) {
             try {
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -579,26 +583,26 @@
 
                 if (type === 'click') {
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(650, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(320, audioCtx.currentTime + 0.08);
-                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(520, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(260, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.08);
                 } else if (type === 'correct') {
                     osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
-                    osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2);
-                    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
+                    osc.frequency.setValueAtTime(554.37, audioCtx.currentTime + 0.1); // C#5
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.2); // E5
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.35);
                 } else if (type === 'breach') {
                     osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(280, audioCtx.currentTime);
-                    osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.4);
-                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(250, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.4);
@@ -638,7 +642,7 @@
         }
 
         function toggleAdminSidebar() {
-            playAquaSound('click');
+            playZenSound('click');
             const sidebar = document.getElementById('admin-sidebar');
             const backdrop = document.getElementById('admin-sidebar-backdrop');
             
@@ -653,7 +657,7 @@
         }
 
         function verifyAdminPassword() {
-            playAquaSound('click');
+            playZenSound('click');
             const passInput = document.getElementById('admin-password-input');
             const errorEl = document.getElementById('admin-auth-error');
             const authSection = document.getElementById('admin-auth-section');
@@ -671,7 +675,7 @@
         }
 
         function lockAdminSession() {
-            playAquaSound('click');
+            playZenSound('click');
             isAdminAuthenticated = false;
             document.getElementById('admin-auth-section').classList.remove('hidden');
             document.getElementById('admin-controls-section').classList.add('hidden');
@@ -689,18 +693,18 @@
             BRUNEI_AVATARS.forEach((avatar, idx) => {
                 const card = document.createElement('div');
                 const isSelected = idx === selectedAvatarIndex;
-                card.className = `avatar-card p-2 cursor-pointer flex justify-center items-center ${
+                card.className = `avatar-card p-2.5 cursor-pointer flex justify-center items-center ${
                     isSelected ? 'selected' : ''
                 }`;
 
                 card.onclick = () => {
-                    playAquaSound('click');
+                    playZenSound('click');
                     selectedAvatarIndex = idx;
                     renderAvatarGrid();
                 };
 
                 card.innerHTML = `
-                    <div class="w-14 h-14 aqua-glass-inner p-1 border border-black/40">
+                    <div class="w-14 h-14 zen-glass-inner p-1 border border-[#7c9a92]/50">
                         ${avatar.svg('neutral')}
                     </div>
                 `;
@@ -724,17 +728,17 @@
             const agentName = nameInput.value.trim();
 
             if (!agentName) {
-                playAquaSound('breach');
+                playZenSound('breach');
                 errorMsg.classList.remove('hidden');
                 nameInput.focus();
-                nameInput.parentElement.classList.add('border-rose-500');
+                nameInput.parentElement.classList.add('border-amber-700');
                 return;
             }
 
             errorMsg.classList.add('hidden');
-            nameInput.parentElement.classList.remove('border-rose-500');
+            nameInput.parentElement.classList.remove('border-amber-700');
 
-            playAquaSound('click');
+            playZenSound('click');
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
@@ -761,7 +765,7 @@
         }
 
         function goToStart() {
-            playAquaSound('click');
+            playZenSound('click');
             clearInterval(timerInterval);
             document.getElementById('start-screen').classList.remove('hidden');
             document.getElementById('quiz-screen').classList.add('hidden');
@@ -786,8 +790,8 @@
             const activeAvatarContainer = document.getElementById('active-hud-avatar');
             activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('neutral');
             
-            document.getElementById('hud-avatar-status').textContent = "STATUS: SUBMERGED & READY";
-            document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-purple-950/60 text-pink-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-pink-500/30";
+            document.getElementById('hud-avatar-status').textContent = "STATUS: READY FOR TRUTH";
+            document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-[9px] px-2 py-0.5 rounded-full border border-emerald-300/50 shadow-sm";
 
             document.getElementById('question-category-tag').textContent = `CATEGORY: ${q.category.toUpperCase()}`;
             document.getElementById('question-text-heading').textContent = q.question;
@@ -797,9 +801,9 @@
 
             q.options.forEach((optText, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "aqua-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-[#201538]/90 !to-[#2d1b4e]/90 hover:!from-pink-600 hover:!to-purple-600 border border-pink-500/25";
+                btn.className = "zen-button text-[#2c3531] font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-[#f4f1ea] !to-[#e6eee9] hover:!from-[#7c9a92] hover:!to-[#a3b899] hover:!text-white border border-[#7c9a92]/40";
                 btn.innerHTML = `
-                    <span class="font-bold text-xs bg-pink-500/20 text-pink-200 border border-pink-400/30 px-2.5 py-1 rounded-lg flex-shrink-0">
+                    <span class="font-bold text-xs bg-[#7c9a92]/20 text-[#2c3531] border border-[#7c9a92]/40 px-2.5 py-1 rounded-lg flex-shrink-0 shadow-sm">
                         ${String.fromCharCode(65 + idx)}
                     </span>
                     <span class="text-sm md:text-base leading-snug">${optText}</span>
@@ -820,34 +824,34 @@
             for (let i = 0; i < optionButtons.length; i++) {
                 optionButtons[i].disabled = true;
                 if (i === q.correctIndex) {
-                    optionButtons[i].className = "aqua-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-teal-800 !to-emerald-900 border border-emerald-400/60";
+                    optionButtons[i].className = "zen-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-emerald-700 !to-teal-700 border border-emerald-400";
                 } else if (i === selectedIndex && !isCorrect) {
-                    optionButtons[i].className = "aqua-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-rose-900 !to-red-950 border border-red-500/60";
+                    optionButtons[i].className = "zen-button text-white font-rounded font-semibold text-left p-4 flex items-start gap-3 w-full !bg-gradient-to-r !from-rose-800 !to-pink-900 border border-rose-400";
                 }
             }
 
             const activeAvatarContainer = document.getElementById('active-hud-avatar');
 
             if (isCorrect) {
-                playAquaSound('correct');
+                playZenSound('correct');
                 streak++;
                 score += 150 + (streak * 50);
                 document.getElementById('hud-score').textContent = score;
                 document.getElementById('hud-streak').textContent = `${streak}x`;
 
                 activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('happy');
-                document.getElementById('hud-avatar-status').textContent = "STATUS: VERIFIED (真実)!";
-                document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-emerald-950/60 text-emerald-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-emerald-500/40";
+                document.getElementById('hud-avatar-status').textContent = "STATUS: VERIFIED CORRECT (正解)!";
+                document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-[9px] px-2 py-0.5 rounded-full border border-emerald-300 shadow-sm";
 
                 showExplanationWindow(true, q.explanation);
             } else {
-                playAquaSound('breach');
+                playZenSound('breach');
                 streak = 0;
                 document.getElementById('hud-streak').textContent = "0x";
 
                 activeAvatarContainer.innerHTML = BRUNEI_AVATARS[selectedAvatarIndex].svg('scared');
-                document.getElementById('hud-avatar-status').textContent = "STATUS: BREACHED (警告)!";
-                document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-red-950/60 text-red-300 font-semibold text-[9px] px-2 py-0.5 rounded-full border border-red-500/40";
+                document.getElementById('hud-avatar-status').textContent = "STATUS: SCAM BREACH (警告)!";
+                document.getElementById('hud-avatar-status').className = "inline-block mt-1 bg-gradient-to-r from-rose-700 to-pink-800 text-white font-bold text-[9px] px-2 py-0.5 rounded-full border border-rose-300 shadow-sm";
 
                 showExplanationWindow(false, q.explanation);
             }
@@ -860,17 +864,17 @@
 
             expWindow.classList.remove('hidden');
             if (isCorrect) {
-                expTitle.className = "font-bold text-xs text-emerald-300 flex items-center gap-2";
-                expTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i><span>FACT VERIFIED CORRECTLY (正解)!</span>`;
+                expTitle.className = "font-bold text-xs text-emerald-800 flex items-center gap-2";
+                expTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i><span>FACT VERIFIED CORRECTLY (正解)!</span>`;
             } else {
-                expTitle.className = "font-bold text-xs text-rose-300 flex items-center gap-2";
-                expTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg"></i><span>TRICKED BY MISINFORMATION (フェイク)!</span>`;
+                expTitle.className = "font-bold text-xs text-rose-800 flex items-center gap-2";
+                expTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600 text-lg"></i><span>TRICKED BY MISINFORMATION (フェイク)!</span>`;
             }
             expText.textContent = text;
         }
 
         function nextQuestion() {
-            playAquaSound('click');
+            playZenSound('click');
             currentQuestionIndex++;
             if (currentQuestionIndex < quizQuestions.length) {
                 loadQuestion();
@@ -900,14 +904,14 @@
             const badgeDesc = document.getElementById('rank-badge-desc');
 
             if (accuracy >= 80) {
-                badgeTitle.textContent = "🌸 SAKURA SUPREME TRUTH COMMANDER";
-                badgeDesc.textContent = "Flawless navigation! You shielded digital waters from viral rumors and scams.";
+                badgeTitle.textContent = "🍃 ZEN SUPREME TRUTH MASTER";
+                badgeDesc.textContent = "Flawless navigation! You successfully shielded the digital feed from viral rumors.";
             } else if (accuracy >= 50) {
-                badgeTitle.textContent = "⛩ CERTIFIED SAKURA INVESTIGATOR";
-                badgeDesc.textContent = "Great dive! You verified most threats successfully.";
+                badgeTitle.textContent = "🌿 CERTIFIED DIGITAL GUARDIAN";
+                badgeDesc.textContent = "Great performance! You verified most misinformation threats successfully.";
             } else {
-                badgeTitle.textContent = "🌊 DEEP RECRUIT IN TRAINING";
-                badgeDesc.textContent = "Warning! Misinformation tide overwhelmed your sensors. Check official portals and retry!";
+                badgeTitle.textContent = "🛡️ RECRUIT IN TRAINING";
+                badgeDesc.textContent = "Warning! Misinformation wave overpowered your sensors. Check official portals and retry!";
             }
 
             saveScoreToLeaderboard({
@@ -922,16 +926,16 @@
 
         async function saveScoreToLeaderboard(entry) {
             if (!window.firebaseDB) {
-                let scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+                let scores = JSON.parse(localStorage.getItem('brunei_truthguard_zen_leaderboard') || '[]');
                 scores.push(entry);
                 scores.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
                 scores = scores.slice(0, 20);
-                localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify(scores));
+                localStorage.setItem('brunei_truthguard_zen_leaderboard', JSON.stringify(scores));
                 return;
             }
 
             try {
-                const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard');
+                const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard_zen');
                 const newScoreRef = window.firebaseDB.push(leaderboardRef);
                 await window.firebaseDB.set(newScoreRef, entry);
             } catch (e) {
@@ -945,19 +949,19 @@
         }
 
         function closeLeaderboardModal() {
-            playAquaSound('click');
+            playZenSound('click');
             document.getElementById('leaderboard-modal').classList.add('hidden');
         }
 
         async function renderLeaderboardList() {
             const container = document.getElementById('leaderboard-list');
-            container.innerHTML = '<div class="font-rounded text-center p-4 text-pink-200">Loading scores from database...</div>';
+            container.innerHTML = '<div class="font-rounded text-center p-4 text-[#2c3531]">Loading scores from database...</div>';
 
             let scores = [];
 
             if (window.firebaseDB) {
                 try {
-                    const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard');
+                    const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard_zen');
                     const snapshot = await window.firebaseDB.get(leaderboardRef);
                     if (snapshot.exists()) {
                         const data = snapshot.val();
@@ -969,7 +973,7 @@
             }
 
             if (scores.length === 0) {
-                scores = JSON.parse(localStorage.getItem('brunei_truthguard_sakura_leaderboard') || '[]');
+                scores = JSON.parse(localStorage.getItem('brunei_truthguard_zen_leaderboard') || '[]');
             }
 
             scores.sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
@@ -978,7 +982,7 @@
             container.innerHTML = '';
 
             if (scores.length === 0) {
-                container.innerHTML = `<div class="font-rounded text-center p-4 text-pink-200">No high scores logged yet! Complete a mission first.</div>`;
+                container.innerHTML = `<div class="font-rounded text-center p-4 text-[#2c3531]">No high scores logged yet! Complete a mission first.</div>`;
                 return;
             }
 
@@ -988,24 +992,24 @@
                 const avatar = BRUNEI_AVATARS[item.avatarIndex] || BRUNEI_AVATARS[0];
 
                 const row = document.createElement('div');
-                row.className = `aqua-button p-3 flex items-center justify-between !bg-gradient-to-r ${
-                    index === 0 ? '!from-pink-950/85 !to-purple-950/85 border border-pink-300/40' : '!from-[#201538]/80 !to-[#2d1b4e]/80'
+                row.className = `zen-button p-3 flex items-center justify-between !bg-gradient-to-r ${
+                    index === 0 ? '!from-[#7c9a92] !to-[#a3b899] !text-white border border-amber-300' : '!from-[#f4f1ea] !to-[#e6eee9] !text-[#2c3531]'
                 }`;
 
                 row.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <span class="font-extrabold text-sm w-8 text-center text-pink-200">${rankDisplay}</span>
-                        <div class="w-10 h-10 aqua-glass-inner p-0.5 flex-shrink-0 border border-black/40">
+                        <span class="font-extrabold text-sm w-8 text-center">${rankDisplay}</span>
+                        <div class="w-10 h-10 zen-glass-inner p-0.5 flex-shrink-0 border border-[#7c9a92]/50">
                             ${avatar.svg('happy')}
                         </div>
                         <div>
-                            <div class="font-bold text-xs text-pink-100">${item.agentName}</div>
-                            <div class="font-rounded text-[11px] text-pink-300">${item.date} • ${item.timeSeconds}s • <span class="text-pink-200">${avatar.name}</span></div>
+                            <div class="font-bold text-xs">${item.agentName}</div>
+                            <div class="font-rounded text-[11px] opacity-80">${item.date} • ${item.timeSeconds}s • <span class="font-bold">${avatar.name}</span></div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="font-extrabold text-xs text-pink-200">${item.score} PTS</div>
-                        <div class="font-bold text-[9px] text-pink-300">${item.accuracy}% ACC</div>
+                        <div class="font-extrabold text-xs">${item.score} PTS</div>
+                        <div class="font-bold text-[9px] opacity-90">${item.accuracy}% ACC</div>
                     </div>
                 `;
                 container.appendChild(row);
@@ -1016,13 +1020,13 @@
             if (confirm("Reset all leaderboard records in Firebase?")) {
                 if (window.firebaseDB) {
                     try {
-                        const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard');
+                        const leaderboardRef = window.firebaseDB.ref(window.firebaseDB.db, 'truthguard_leaderboard_zen');
                         await window.firebaseDB.remove(leaderboardRef);
                     } catch (e) {
                         console.error("Error resetting Firebase leaderboard:", e);
                     }
                 }
-                localStorage.setItem('brunei_truthguard_sakura_leaderboard', JSON.stringify([]));
+                localStorage.setItem('brunei_truthguard_zen_leaderboard', JSON.stringify([]));
                 renderLeaderboardList();
             }
         }
@@ -1033,7 +1037,7 @@
         }
 
         function closeEditorModal() {
-            playAquaSound('click');
+            playZenSound('click');
             document.getElementById('editor-modal').classList.add('hidden');
         }
 
@@ -1043,29 +1047,29 @@
 
             quizQuestions.forEach((q, idx) => {
                 const formCard = document.createElement('div');
-                formCard.className = "aqua-glass-inner p-4 space-y-3 border border-pink-400/25";
+                formCard.className = "zen-glass-inner p-4 space-y-3 border border-[#7c9a92]/30";
 
                 const opts = q.options || ["", "", "", ""];
 
                 formCard.innerHTML = `
-                    <div class="flex justify-between items-center text-[10px] text-pink-300 border-b border-pink-400/20 pb-1 font-bold">
+                    <div class="flex justify-between items-center text-[10px] text-[#2c3531]/70 border-b border-[#7c9a92]/20 pb-1 font-bold">
                         <span>QUESTION #${idx + 1}</span>
-                        <button onclick="removeQuestionFromEditor(${idx})" class="bg-red-500/30 text-red-200 px-2 py-0.5 rounded border border-red-400/40">DELETE</button>
+                        <button onclick="removeQuestionFromEditor(${idx})" class="bg-rose-950/10 text-rose-800 px-2 py-0.5 rounded border border-rose-500/40">DELETE</button>
                     </div>
 
                     <div>
-                        <label class="text-[9px] block text-pink-200 font-bold">QUESTION TEXT:</label>
-                        <input type="text" id="ed-qtext-${idx}" value="${q.question.replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
+                        <label class="text-[9px] block text-[#2c3531]/80 font-bold">QUESTION TEXT:</label>
+                        <input type="text" id="ed-qtext-${idx}" value="${q.question.replace(/"/g, '&quot;')}" class="w-full zen-glass-inner p-2 text-xs font-rounded font-bold text-[#2c3531] border border-[#7c9a92]/40">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[9px] block text-pink-200 font-bold">CATEGORY:</label>
-                            <input type="text" id="ed-cat-${idx}" value="${q.category}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30">
+                            <label class="text-[9px] block text-[#2c3531]/80 font-bold">CATEGORY:</label>
+                            <input type="text" id="ed-cat-${idx}" value="${q.category}" class="w-full zen-glass-inner p-2 text-xs font-rounded font-bold text-[#2c3531] border border-[#7c9a92]/40">
                         </div>
                         <div>
-                            <label class="text-[9px] block text-pink-200 font-bold">CORRECT ANSWER (1-4):</label>
-                            <select id="ed-corr-${idx}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white border border-pink-500/30 bg-[#1a102f]">
+                            <label class="text-[9px] block text-[#2c3531]/80 font-bold">CORRECT ANSWER (1-4):</label>
+                            <select id="ed-corr-${idx}" class="w-full zen-glass-inner p-2 text-xs font-rounded font-bold text-[#2c3531] border border-[#7c9a92]/40 bg-[#f4f1ea]">
                                 <option value="1" ${(q.correctIndex === 0) ? 'selected' : ''}>Answer 1</option>
                                 <option value="2" ${(q.correctIndex === 1) ? 'selected' : ''}>Answer 2</option>
                                 <option value="3" ${(q.correctIndex === 2) ? 'selected' : ''}>Answer 3</option>
@@ -1074,31 +1078,31 @@
                         </div>
                     </div>
 
-                    <div class="space-y-2 border-t border-pink-500/20 pt-2">
-                        <label class="text-[9px] block text-pink-200 font-bold uppercase">ARRANGE ANSWERS (1 TO 4):</label>
+                    <div class="space-y-2 border-t border-[#7c9a92]/20 pt-2">
+                        <label class="text-[9px] block text-[#2c3531]/80 font-bold uppercase">ARRANGE ANSWERS (1 TO 4):</label>
                         <div class="grid grid-cols-1 gap-2">
                             <div class="flex items-center gap-2">
-                                <span class="text-[10px] font-bold text-pink-300 w-6">1.</span>
-                                <input type="text" id="ed-opt-${idx}-0" value="${opts[0].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                                <span class="text-[10px] font-bold text-[#2c3531]/70 w-6">1.</span>
+                                <input type="text" id="ed-opt-${idx}-0" value="${opts[0].replace(/"/g, '&quot;')}" class="w-full zen-glass-inner p-1.5 text-xs text-[#2c3531] border border-[#7c9a92]/30 font-rounded">
                             </div>
                             <div class="flex items-center gap-2">
-                                <span class="text-[10px] font-bold text-pink-300 w-6">2.</span>
-                                <input type="text" id="ed-opt-${idx}-1" value="${opts[1].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                                <span class="text-[10px] font-bold text-[#2c3531]/70 w-6">2.</span>
+                                <input type="text" id="ed-opt-${idx}-1" value="${opts[1].replace(/"/g, '&quot;')}" class="w-full zen-glass-inner p-1.5 text-xs text-[#2c3531] border border-[#7c9a92]/30 font-rounded">
                             </div>
                             <div class="flex items-center gap-2">
-                                <span class="text-[10px] font-bold text-pink-300 w-6">3.</span>
-                                <input type="text" id="ed-opt-${idx}-2" value="${opts[2].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                                <span class="text-[10px] font-bold text-[#2c3531]/70 w-6">3.</span>
+                                <input type="text" id="ed-opt-${idx}-2" value="${opts[2].replace(/"/g, '&quot;')}" class="w-full zen-glass-inner p-1.5 text-xs text-[#2c3531] border border-[#7c9a92]/30 font-rounded">
                             </div>
                             <div class="flex items-center gap-2">
-                                <span class="text-[10px] font-bold text-pink-300 w-6">4.</span>
-                                <input type="text" id="ed-opt-${idx}-3" value="${opts[3].replace(/"/g, '&quot;')}" class="w-full aqua-glass-inner p-1.5 text-xs text-white border border-pink-500/30 font-rounded">
+                                <span class="text-[10px] font-bold text-[#2c3531]/70 w-6">4.</span>
+                                <input type="text" id="ed-opt-${idx}-3" value="${opts[3].replace(/"/g, '&quot;')}" class="w-full zen-glass-inner p-1.5 text-xs text-[#2c3531] border border-[#7c9a92]/30 font-rounded">
                             </div>
                         </div>
                     </div>
 
-                    <div class="border-t border-pink-500/20 pt-2">
-                        <label class="text-[9px] block text-pink-200 font-bold">FACT EXPLANATION:</label>
-                        <textarea id="ed-exp-${idx}" class="w-full aqua-glass-inner p-2 text-xs font-rounded font-bold text-white h-12 border border-pink-500/30">${q.explanation}</textarea>
+                    <div class="border-t border-[#7c9a92]/20 pt-2">
+                        <label class="text-[9px] block text-[#2c3531]/80 font-bold">FACT EXPLANATION:</label>
+                        <textarea id="ed-exp-${idx}" class="w-full zen-glass-inner p-2 text-xs font-rounded font-bold text-[#2c3531] h-12 border border-[#7c9a92]/40">${q.explanation}</textarea>
                     </div>
                 `;
                 list.appendChild(formCard);
@@ -1159,5 +1163,3 @@
     </script>
 </body>
 </html>
-
-shenra was here
