@@ -13,14 +13,14 @@
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getDatabase, ref, set, get, push, child, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+        import { getDatabase, ref, set, get, push, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDummyKeyForTruthGuardApp001",
-            authDomain: "truthguard-brunei.firebaseapp.com",
-            databaseURL: "https://truthguard-brunei-default-rtdb.firebaseio.com",
-            projectId: "truthguard-brunei",
-            storageBucket: "truthguard-brunei.appspot.com",
+            authDomain: "truthguard-f65c7.firebaseapp.com",
+            databaseURL: "https://truthguard-f65c7-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "truthguard-f65c7",
+            storageBucket: "truthguard-f65c7.appspot.com",
             messagingSenderId: "123456789012",
             appId: "1:123456789012:web:abcdef123456789"
         };
@@ -28,9 +28,9 @@
         try {
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
-            window.firebaseDB = { db, ref, set, get, push, child, remove };
+            window.firebaseDB = { db, ref, set, get, push, remove };
         } catch (e) {
-            console.log("Firebase optional initialization notice:", e);
+            console.log("Firebase initialization notice:", e);
             window.firebaseDB = null;
         }
     </script>
@@ -162,7 +162,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="goToStart()">
                 <div class="bg-gradient-to-r from-pink-400/80 to-rose-400/80 text-slate-950 font-extrabold px-3.5 py-1 rounded-full text-xs shadow-md tracking-wider border border-white/30">
-                    🌸 SAKURA AERO v1.29
+                    🌸 SAKURA AERO v1.32
                 </div>
                 <span class="font-extrabold text-sm md:text-base tracking-wide text-white drop-shadow-md">
                     TRUTHGUARD <span class="text-pink-300 font-light">COMMUNITY EDITION</span>
@@ -233,21 +233,22 @@
                     Spot Fake News & Master Digital Defense!
                 </h1>
                 <p class="font-rounded text-sm md:text-base text-pink-200/90 max-w-xl mx-auto font-medium">
-                    Establish your undercover profile, gear up your avatar, and master digital verification!
+                    Type your agent codename, pick your custom sakura avatar, and master digital verification!
                 </p>
             </div>
 
             <div class="aqua-glass p-6 space-y-4">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-user-ninja text-pink-300 text-lg"></i>
-                    <h2 class="font-bold text-xs uppercase tracking-wider text-pink-200">ENTER AGENT CODENAME:</h2>
+                    <h2 class="font-bold text-xs uppercase tracking-wider text-pink-200">ENTER YOUR AGENT CODENAME <span class="text-pink-400">*required</span>:</h2>
                 </div>
 
-                <div class="flex items-center aqua-glass-inner p-3">
+                <div class="flex items-center aqua-glass-inner p-3 border border-pink-500/40">
                     <span class="font-extrabold text-sm text-pink-300 select-none pr-1">Agent:&nbsp;</span>
-                    <input type="text" id="agent-name-input" value="" placeholder="Your Name" maxlength="15" 
+                    <input type="text" id="agent-name-input" value="" placeholder="Type your name here..." maxlength="15" 
                         class="font-extrabold text-sm md:text-base text-white bg-transparent w-full focus:outline-none tracking-wider">
                 </div>
+                <p id="name-error-msg" class="text-[11px] text-rose-400 font-bold hidden">⚠️ Please type your agent codename to proceed into the verification programme.</p>
             </div>
 
             <div class="aqua-glass p-6 space-y-4">
@@ -503,55 +504,55 @@
         let quizQuestions = [
             {
                 id: 1,
-                category: "WhatsApp Viral Rumors",
-                question: "A WhatsApp voice message warns that major national highway bridges will be closed indefinitely due to shifting ocean currents. Is this verified?",
+                category: "Fake News & Rumors",
+                question: "According to Brunei's Public Order Act, what is the legal penalty for maliciously creating or spreading false reports that cause public alarm?",
                 options: [
-                    "TRUE: Forward it to your family immediately!",
-                    "FALSE: Official marine and road advisories are always published by authorities first.",
-                    "TRUE: Ocean currents always close major bridges without warning.",
-                    "FALSE: Bridges never experience closures."
+                    "Only a gentle online warning and request to delete the post.",
+                    "A fine of up to BND $3,000, imprisonment of up to 3 years, or both.",
+                    "Immediate community service at a local school.",
+                    "No legal penalty exists for sharing fake news online."
                 ],
                 correctIndex: 1,
-                explanation: "Unverified voice notes on social media often spread unwarranted panic. Always check official government announcements."
+                explanation: "Under Brunei's Public Order Act (Chapter 148), publishing or spreading false news causing public alarm carries strict legal consequences including fines up to BND $3,000 and imprisonment."
             },
             {
                 id: 2,
-                category: "Banking Phishing Scams",
-                question: "You receive an SMS link claiming your bank account requires emergency biometric re-verification. What should you do?",
+                category: "Cybercrime & Scams",
+                question: "Under Brunei's Computer Misuse Act (Chapter 34), what constitutes an offense related to unauthorized access or malicious communications?",
                 options: [
-                    "Click the link and type your banking credentials instantly.",
-                    "DO NOT click! Banks never request biometric or password verification via unverified SMS links.",
-                    "Send your password to the phone number provided.",
-                    "Call the random number listed in the text message."
+                    "Only physical damage to computer hardware.",
+                    "Accessing computer material without authority, launching phishing scams, or distributing malicious software.",
+                    "Sharing memes without tagging the original creator.",
+                    "Sending friendly automated greeting messages."
                 ],
                 correctIndex: 1,
-                explanation: "Phishing links mimic trusted financial institutions. Always use official banking mobile apps or typed official web portals."
+                explanation: "The Computer Misuse Act criminalizes unauthorized access to computer programs/data, phishing, hacking, and spreading malicious digital content or malware."
             },
             {
                 id: 3,
-                category: "Weather & Meteorology",
-                question: "A social media post claims a sudden severe tsunami warning is active for coastal waters. How do you verify this safely?",
+                category: "Online Defamation",
+                question: "If someone publishes defamatory statements or false accusations online to ruin another person's reputation in Brunei, which law applies?",
                 options: [
-                    "Panic and evacuate immediately without checking.",
-                    "Check the official Meteorological Department weather app or verified emergency broadcasts.",
-                    "Ask strangers in an online comment section.",
-                    "Ignore it and go swimming."
+                    "Civil and criminal defamation provisions under Brunei law, where offenders can face severe fines and imprisonment.",
+                    "Digital defamation is completely unregulated on social media.",
+                    "Only copyright infringement laws apply.",
+                    "Defamation is legally protected as freedom of speech."
                 ],
-                correctIndex: 1,
-                explanation: "Official government weather bureaus are the authority on severe weather. Always verify natural disaster notices through official channels."
+                correctIndex: 0,
+                explanation: "Publishing damaging untruths online is subject to defamation laws in Brunei, carrying severe legal penalties for harming individuals or organizations."
             },
             {
                 id: 4,
-                category: "Public Holiday Verification",
-                question: "A glossy graphic poster circulates on Instagram announcing an unexpected nationwide holiday tomorrow. What is the correct protocol?",
+                category: "Verification Protocol",
+                question: "What is the safest and most lawful step before forwarding unverified breaking news or sensational warnings on WhatsApp?",
                 options: [
-                    "Assume it's true and cancel your classes.",
-                    "Cross-check with the Prime Minister's Office or official state news broadcasts.",
-                    "Repost it to your story to ask if friends know more.",
-                    "Call emergency services directly to confirm."
+                    "Forward it to all group chats immediately to warn everyone.",
+                    "Verify the facts against official government portals (such as InfoDept, RTB, or relevant ministries) before sharing.",
+                    "Edit the message to make it sound more exciting.",
+                    "Post it publicly with your own added speculation."
                 ],
                 correctIndex: 1,
-                explanation: "Official public holidays are formally declared and broadcasted through official government channels."
+                explanation: "Always cross-check claims against official verified channels (like Pelita Brunei or official government updates) to prevent inadvertent violation of false reporting laws."
             }
         ];
 
@@ -714,11 +715,26 @@
         }
 
         function getFullAgentCodename() {
-            const inputVal = document.getElementById('agent-name-input').value.trim() || "Recipient";
+            const inputVal = document.getElementById('agent-name-input').value.trim();
             return `Agent: ${inputVal}`;
         }
 
         function startQuiz() {
+            const nameInput = document.getElementById('agent-name-input');
+            const errorMsg = document.getElementById('name-error-msg');
+            const agentName = nameInput.value.trim();
+
+            if (!agentName) {
+                playAquaSound('breach');
+                errorMsg.classList.remove('hidden');
+                nameInput.focus();
+                nameInput.parentElement.classList.add('border-rose-500');
+                return;
+            }
+
+            errorMsg.classList.add('hidden');
+            nameInput.parentElement.classList.remove('border-rose-500');
+
             playAquaSound('click');
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('result-screen').classList.add('hidden');
@@ -936,7 +952,7 @@
 
         async function renderLeaderboardList() {
             const container = document.getElementById('leaderboard-list');
-            container.innerHTML = '<div class="font-rounded text-center p-4 text-pink-200">Loading scores...</div>';
+            container.innerHTML = '<div class="font-rounded text-center p-4 text-pink-200">Loading scores from database...</div>';
 
             let scores = [];
 
@@ -1144,3 +1160,5 @@
     </script>
 </body>
 </html>
+
+shenra was here
